@@ -1,0 +1,346 @@
+/* ============================================================
+   Section styles
+   ============================================================ */
+
+/* shared buttons */
+.btn-fill {
+  background: var(--c-black); color: #fff; border: 1px solid var(--c-black);
+  padding: 0.85rem 2rem; font-size: var(--fs-nav);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  transition: background 0.3s, color 0.3s;
+}
+/* hover = colour change only (no shifting) */
+.btn-fill:hover { background: transparent; color: var(--c-black); }
+.btn-line {
+  background: none; border: 1px solid currentColor; color: var(--c-cream);
+  padding: 0.9rem 1.8rem; font-size: var(--fs-nav);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  transition: background 0.3s, color 0.3s;
+}
+.btn-line:hover { background: var(--c-cream); color: var(--c-black); }
+
+/* ================= LANDING (Desktop 17) ================= */
+.state--landing { background: var(--c-bg); }
+
+/* --- banner --- */
+.banner {
+  position: relative; height: 100vh; overflow: hidden;
+  display: grid; place-items: center; color: #fff;
+}
+.banner__bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; filter: brightness(0.72) saturate(0.9);
+}
+.banner__trail { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.banner__trail-img {
+  position: absolute; top: 0; left: 0;
+  width: clamp(280px, 24vw, 380px); aspect-ratio: 16 / 10; object-fit: cover;
+  will-change: transform, opacity;
+}
+/* rama line-art: outline only (no fill), colour via currentColor */
+.rama svg path { fill: none !important; stroke: currentColor !important; stroke-width: 1px; vector-effect: non-scaling-stroke; }
+/* 2-LAYER RAMAS straddling the hero↔intro seam (one drawing, split by colour):
+   white halves live in the banner and are clipped at its bottom edge (the seam). */
+.banner__rama { position: absolute; pointer-events: none; z-index: 1; color: #fff; opacity: 0.9; }
+.banner__rama svg { width: 100%; height: auto; display: block; }
+.banner__rama--l { left: -18.2vw; width: 54.4vw; top: calc(100% - 26.5vw); }
+.banner__rama--r { left: 74vw;    width: 67vw;   top: calc(100% - 28vw); }
+.banner__head { position: relative; z-index: 2; text-align: center; }
+.banner__kicker { font-size: 1.2rem; letter-spacing: 0; text-transform: uppercase; }
+.banner__logo-main { width: clamp(320px, 44vw, 720px); height: auto; margin-top: 1.2rem; display: block; }
+
+/* --- intro --- */
+/* exact Figma layout (1440 frame) scaled in vw → faithful + responsive.
+   Photos bleed off the side edges (clipped by body overflow-x). */
+.intro { position: relative; height: 66vw; overflow: visible; }
+/* grey halves live in the intro; clip-path hides the part above the seam (drawn
+   by the white banner halves) so together they read as one continuous drawing */
+.intro__rama { position: absolute; pointer-events: none; z-index: 0; color: #554D56; opacity: 0.65; }
+.intro__rama svg { width: 100%; height: auto; display: block; }
+.intro__rama--l { left: -18.2vw; width: 54.4vw; top: -26.5vw; clip-path: inset(26.5vw 0 0 0); }
+.intro__rama--r { left: 74vw;    width: 67vw;   top: -28vw;   clip-path: inset(28vw 0 0 0); }
+.intro__photos { position: absolute; inset: 0; z-index: 1; }
+.intro__ph { position: absolute; object-fit: cover; }
+.intro__ph--0 { left: 62.85vw; top: 4.86vw;  width: 16.25vw; height: 20.00vw; } /* Rect622 */
+.intro__ph--1 { left: 18.82vw; top: 15.35vw; width: 10.97vw; height: 13.47vw; } /* Rect625 */
+.intro__ph--2 { left: -5.76vw; top: 24.86vw; width: 16.25vw; height: 10.97vw; } /* Rect628 */
+.intro__ph--3 { left: 91.88vw; top: 28.40vw; width: 16.25vw; height: 10.97vw; } /* Rect627 */
+.intro__ph--4 { left: 2.15vw;  top: 43.20vw; width: 16.25vw; height: 10.97vw; } /* Rect623 */
+.intro__ph--5 { left: 73.60vw; top: 43.20vw; width: 16.25vw; height: 20.97vw; } /* Rect624 */
+.intro__ph--6 { left: 30.50vw; top: 49.58vw; width: 16.25vw; height: 10.97vw; } /* Rect626 */
+.intro__lead {
+  position: absolute; left: 50%; top: 32.6vw; transform: translateX(-50%);
+  width: min(1383px, 94vw); max-width: none; z-index: 2; text-align: center;
+  font-weight: 400; font-size: clamp(0.78rem, 1.45vw, 1.3rem); line-height: 1.35;
+  letter-spacing: 0.01em; text-transform: uppercase; margin: 0;
+}
+
+/* --- archivos vivos --- */
+.archivos { padding: 16vh var(--pad-x) 4vh; }
+.archivos__title { font-size: var(--fs-section); text-align: center; margin: 0; letter-spacing: 0.04em; }
+.archivos__sub { text-align: center; font-size: 0.72rem; letter-spacing: 0.08em; opacity: 0.7; margin: 0.5rem 0 6vh; }
+
+/* Exact Figma layout (Frame 268: 1383×1579). Fixed-ratio frame, photos placed
+   absolutely with the Figma coordinates as %. Text uses cqw so it scales with
+   the frame. Container kept roughly fixed; photos crop (object-fit: cover). */
+.expo { display: flex; justify-content: center; padding: 8vh 0; border-top: 1px solid var(--c-line); }
+.expo__frame {
+  position: relative; width: min(1383px, 94vw); aspect-ratio: 1383 / 1579;
+  container-type: inline-size;
+}
+.expo__ph { position: absolute; object-fit: cover; }
+.expo__ph--0 { left: 25.52%; top: 0;       width: 49.17%; height: 28.69%; } /* R595 */
+.expo__ph--1 { left: 76.14%; top: 10.58%;  width: 23.86%; height: 14.76%; } /* R596 */
+.expo__ph--2 { left: 0;      top: 30.21%;  width: 24.22%; height: 25.40%; } /* R597 */
+.expo__ph--3 { left: 76.14%; top: 42.37%;  width: 23.86%; height: 25.40%; } /* R598 */
+.expo__ph--4 { left: 0;      top: 59.78%;  width: 36.73%; height: 22.74%; } /* R603 */
+.expo__ph--5 { left: 50.83%; top: 75.55%;  width: 23.86%; height: 13.93%; } /* R601 */
+
+.expo__text {
+  position: absolute; left: 0.36%; top: 0; width: 24%; padding-right: 5cqw;
+  display: flex; flex-direction: column; gap: 2.3cqw;
+}
+.expo__num { font-size: 7.8cqw; line-height: 0.8; }
+.expo__block { display: flex; flex-direction: column; gap: 2.1cqw; }
+.expo__heading { font-size: 0.87cqw; font-weight: 600; line-height: 1; margin: 0 0 0.72cqw; }
+.expo__vol { font-weight: 400; opacity: 0.7; }
+.expo__desc-short { font-size: 0.87cqw; line-height: 1.15; margin: 0; }
+.expo__desc { font-size: 0.72cqw; line-height: 1.3; margin: 0; }
+
+.expo__name {
+  position: absolute; left: 48.5%; top: 48%; transform: translate(-50%, -50%);
+  font-size: 4.6cqw; line-height: 0.95; text-align: center;
+}
+.expo__cta {
+  position: absolute; left: 50%; top: 95.8%; transform: translateX(-50%);
+  font-size: 1cqw; padding: 1.95cqw 8.3cqw; letter-spacing: 0.16em; white-space: nowrap;
+}
+
+/* Alberche has its own photo layout (Figma Group 25, frame 1383×1633) */
+.expo[data-rio="alberche"] .expo__frame { aspect-ratio: 1383 / 1633; }
+.expo[data-rio="alberche"] .expo__ph--0 { left: 25.31%; top: 0;      width: 23.57%; height: 24.80%; } /* R589 */
+.expo[data-rio="alberche"] .expo__ph--1 { left: 63.27%; top: 3.73%;  width: 36.73%; height: 23.21%; } /* R590 */
+.expo[data-rio="alberche"] .expo__ph--2 { left: 0;      top: 32.94%; width: 23.86%; height: 14.21%; } /* R588 */
+.expo[data-rio="alberche"] .expo__ph--3 { left: 75.78%; top: 30.74%; width: 23.86%; height: 26.39%; } /* R599 */
+.expo[data-rio="alberche"] .expo__ph--4 { left: 0;      top: 62.77%; width: 48.95%; height: 27.07%; } /* R592 */
+.expo[data-rio="alberche"] .expo__ph--5 { left: 63.05%; top: 63.62%; width: 23.86%; height: 14.21%; } /* R600 */
+.expo[data-rio="alberche"] .expo__name { left: 46%; top: 40%; }
+.expo[data-rio="alberche"] .expo__cta { top: 95.96%; }
+
+/* --- bitácoras carousel + dynamic grid --- */
+.bitacoras { padding: 8vh var(--pad-x); border-top: 1px solid var(--c-line); text-align: center; }
+.bitacoras__title { font-size: var(--fs-section); margin: 0 0 0.4rem; }
+/* same content width as the Archivos Vivos frame */
+.bita__viewport { margin: 5vh auto 2vh; max-width: min(1383px, 94vw); }
+/* Figma layout: big image (full height) on the left; on the right a top row of
+   medium + smalls (mutating by N) and the testimonial below; large quote mark
+   bottom-right. Explicit heights so fr rows always resolve (no stretch bug). */
+.bita__entry {
+  position: relative; display: grid; grid-template-columns: 1.25fr 1.55fr; gap: 1.8vw;
+  height: clamp(400px, 56vh, 680px); text-align: left;
+}
+.bita__cell { padding: 0; border: 0; background: none; cursor: pointer; overflow: hidden; min-width: 0; min-height: 0; }
+.bita__cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: filter 0.3s, transform 0.6s; }
+.bita__cell:hover img { filter: brightness(1.06); transform: scale(1.03); }
+.bita__large { height: 100%; }
+.bita__right { display: grid; grid-template-rows: 1.25fr 1fr; gap: 1.6vh; min-height: 0; }
+.bita__photos { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0.7vw; min-height: 0; }
+.bita__medium { min-height: 0; }
+.bita__smalls { display: grid; gap: 0.6vw; min-height: 0; }
+.bita__smalls[data-n="1"] { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+.bita__smalls[data-n="2"] { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; }
+.bita__smalls[data-n="3"] { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.bita__smalls[data-n="3"] > :first-child { grid-column: 1 / 3; }
+.bita__smalls[data-n="4"] { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.bita__testimonial { position: relative; display: flex; flex-direction: column; justify-content: center; padding-right: 2.5rem; }
+.bita__quote-sm { font-size: 2rem; line-height: 0; height: 0.9rem; font-weight: 700; }
+.bita__author { font-size: 0.82rem; letter-spacing: 0.12em; font-weight: 700; margin: 0.9rem 0 0.7rem; }
+.bita__message { font-size: 0.86rem; line-height: 1.55; margin: 0; max-width: 42ch; }
+.bita__place { font-size: 0.7rem; opacity: 0.6; margin: 0.9rem 0 0; }
+.bita__quote-lg { position: absolute; right: 0; bottom: -2vh; font-size: 5rem; line-height: 0.5; }
+.bita__nav { display: flex; align-items: center; justify-content: center; gap: 1.2rem; margin: 1vh 0 4vh; }
+.bita__arrow { background: none; border: 0; font-size: 1.6rem; line-height: 1; cursor: pointer; color: var(--c-black); }
+.bita__dots { display: flex; gap: 0.5rem; }
+.bita__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-line); transition: background 0.3s; }
+.bita__dot.is-active { background: var(--c-black); }
+
+/* --- form overlay (Desktop 7) --- */
+.form-overlay {
+  position: fixed; inset: 0; z-index: var(--z-overlay);
+  background: #F2F2F2; color: #000; overflow: hidden;
+  display: flex; flex-direction: column;
+  padding: calc(var(--header-real, 130px) + 2vh) var(--pad-x) 3vh;
+}
+.form-overlay[hidden] { display: none; }
+.form-overlay__head { margin-bottom: 2.2vh; flex: none; }
+.form__back {
+  display: inline-flex; align-items: center; gap: 1rem; border: 1px solid #000;
+  background: none; padding: 1.1rem 1.4rem; font-size: 0.72rem; letter-spacing: 0.06em; cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.form__back:hover { background: #000; color: #fff; }
+.form__back-arrow { font-size: 1.1rem; line-height: 1; }
+/* 3 columns — uploader 676 / thumbnails 155 / fields 503 (Figma proportions) */
+.form {
+  display: grid; grid-template-columns: 676fr 155fr 503fr; gap: clamp(28px, 3.2vw, 64px);
+  align-items: stretch; flex: 1; min-height: 0;
+}
+.form__drop {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;
+  min-height: 0; border: 1px solid #5B5B5B; cursor: pointer; color: #5B5B5B;
+}
+.form__plus { font-size: clamp(4rem, 8vw, 8rem); line-height: 0.8; font-weight: 500; }
+.form__drop-label { font-size: 0.72rem; letter-spacing: 0.1em; text-align: center; }
+.form__thumbs { display: flex; flex-direction: column; gap: clamp(10px, 1.6vh, 20px); min-height: 0; }
+.form__thumb { position: relative; flex: 1; min-height: 0; border: 1px solid rgba(91,91,91,0.5); overflow: hidden; }
+.form__thumb--empty { border: 1px solid rgba(91,91,91,0.16); }
+.form__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.form__thumb-x { position: absolute; top: 5px; right: 5px; width: 22px; height: 22px; border: 0; background: rgba(0,0,0,0.6); color: #fff; font-size: 0.7rem; cursor: pointer; }
+.form__fields { display: flex; flex-direction: column; gap: clamp(14px, 2vh, 24px); min-height: 0; }
+.form__field { display: flex; flex-direction: column; }
+.form__field--msg { flex: 1; min-height: 0; }
+.form__label { background: #000; color: #fff; padding: 1.5rem; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; flex: none; }
+.form__label i { font-style: normal; }
+.form__field input, .form__field textarea {
+  width: 100%; border: 1px solid #000; border-top: 0; padding: 1.3rem 1.5rem;
+  font: inherit; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.04em; color: #5B5B5B;
+  background: transparent; resize: vertical;
+}
+.form__field input::placeholder, .form__field textarea::placeholder { color: #5B5B5B; }
+.form__field--msg textarea { flex: 1; min-height: 0; height: auto; }
+.form__error { color: #b00020; font-size: 0.72rem; margin: 0; }
+.form__submit { align-self: flex-end; padding: 1.4rem 4.5rem; }
+
+@media (max-width: 860px) {
+  .bita__entry { grid-template-columns: 1fr; }
+  .form { grid-template-columns: 1fr; }
+}
+
+/* --- footer --- */
+.site-footer { background: var(--c-bg); }
+.site-footer__claim-row { display: flex; align-items: center; gap: 1.6rem; padding: 12vh var(--pad-x) 5vh; }
+.site-footer__fish { width: clamp(90px, 9vw, 133px); height: auto; }
+.site-footer__claim { font-size: 1.25rem; line-height: 1.1; margin: 0; }
+.site-footer__dark {
+  background: #0C1213; color: var(--c-cream);
+  min-height: 280px; padding: 2.6rem var(--pad-x);
+  display: grid; grid-template-columns: auto 1fr auto; gap: clamp(2rem, 7vw, 7rem); align-items: stretch;
+}
+.site-footer__logo { width: clamp(150px, 17vw, 240px); height: auto; align-self: center; }
+/* middle: nav links (top) + contact (bottom) */
+.site-footer__mid { display: flex; flex-direction: column; justify-content: space-between; gap: 2.5rem; }
+.site-footer__links { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.78rem; }
+.site-footer__links a { color: inherit; text-decoration: none; opacity: 0.9; }
+.site-footer__links a:hover { opacity: 1; }
+.site-footer__contact { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; }
+.site-footer__contact p { margin: 0; opacity: 0.9; }
+.site-footer__col-h { font-size: 0.6rem; letter-spacing: 0.16em; opacity: 0.45; margin: 0 0 0.35rem; }
+/* right: copyright (top) + social (bottom) */
+.site-footer__meta { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; text-align: right; }
+.site-footer__copy { font-size: 0.72rem; opacity: 0.6; margin: 0; }
+.site-footer__social { display: flex; gap: 0.5rem; }
+.site-footer__social a {
+  font-size: 0.64rem; border: 1px solid rgba(255,255,255,0.35); border-radius: 999px;
+  padding: 0.4rem 0.85rem; color: inherit; text-decoration: none;
+}
+.site-footer__social a:hover { background: rgba(255,255,255,0.12); }
+
+/* ================= FLOW: video / textos ================= */
+.state--flow { display: grid; place-items: center; overflow: hidden; }
+.flow__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.flow__skip {
+  position: absolute; bottom: 2rem; right: 2rem; z-index: 3;
+  background: rgba(0,0,0,0.4); color: #fff; border: 1px solid rgba(255,255,255,0.4);
+  padding: 0.5rem 1rem; font-size: var(--fs-nav); letter-spacing: 0.18em; backdrop-filter: blur(4px);
+}
+.flow__texto { text-align: center; padding: var(--pad-x); }
+.flow__lozoya { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.95; margin: 0; color: #fff; letter-spacing: 0.05em; }
+.flow__manifiesto { max-width: 60ch; }
+.flow__lead { font-size: var(--fs-lead); font-weight: 600; line-height: 1.45; color: var(--c-cream); }
+
+/* manifiesto (Desktop 16) — fish + statement bottom-left, date bottom-right */
+.manifiesto { position: absolute; inset: 0; background: var(--c-black); color: #fff; }
+.manifiesto__main {
+  position: absolute; left: 2vw; bottom: 3vh;
+  display: flex; align-items: flex-start; gap: clamp(1.5rem, 4vw, 5rem); max-width: 62vw;
+}
+.manifiesto__fish { width: clamp(78px, 7vw, 100px); height: auto; flex: none; filter: invert(1); }
+.manifiesto__text { width: clamp(340px, 35vw, 505px); }
+.manifiesto__lead { font-weight: 600; font-size: clamp(0.85rem, 1.1vw, 1rem); line-height: 1.2; margin: 0 0 1.1rem; }
+.manifiesto__body { font-weight: 400; font-size: clamp(0.68rem, 0.83vw, 0.78rem); line-height: 1.45; text-align: justify; margin: 0; }
+.manifiesto__date { position: absolute; right: 1.7vw; bottom: 3vh; width: clamp(130px, 11.2vw, 162px); height: auto; }
+
+/* ================= FASE 2 — apartados (Group 24 / D6) ================= */
+.state--apartados { background: var(--c-bg); }
+.apartado { position: relative; }
+.apartado__pin { position: relative; height: 100vh; width: 100vw; overflow: hidden; }
+
+/* black title card */
+.apartado__title {
+  position: absolute; inset: 0; z-index: 3;
+  background: var(--c-black); color: var(--c-cream);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 var(--pad-x) 8vh;
+}
+.apartado__num { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; }
+.apartado__name { font-size: var(--fs-display); font-weight: 900; margin: 0; line-height: 0.9; letter-spacing: -0.01em; }
+
+/* white documentation scene */
+.apartado__scene { position: absolute; inset: 0; z-index: 1; background: var(--c-bg); }
+.apartado__guide { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.85; pointer-events: none; }
+.apartado__stack { position: absolute; inset: 0; overflow: hidden; }
+.apartado__ph {
+  /* width + aspect-ratio are set inline per photo (real proportion) */
+  position: absolute; padding: 0; border: 0; background: none; cursor: pointer;
+  will-change: transform, opacity;
+}
+.apartado__ph img {
+  width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+}
+.apartado__ph:hover img { filter: brightness(1.08); }
+
+.apartado__col {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: clamp(150px, 15vw, 220px); z-index: 5;
+}
+.apartado__col--l { left: var(--pad-x); }
+.apartado__col--r { right: var(--pad-x); }
+.foto-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; margin: 0 0 0.6rem; }
+.foto-desc { font-size: 0.66rem; line-height: 1.55; margin: 0; color: #333; }
+
+.apartado__end {
+  position: absolute; inset: 0; z-index: 6;
+  display: flex; gap: 1.5rem; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.7); backdrop-filter: blur(2px);
+}
+.apartado__end .btn-line { color: var(--c-black); }
+.apartado__end .btn-line:hover { background: var(--c-black); color: #fff; }
+
+/* ================= FOTO DETALLE (Desktop 5) ================= */
+.foto-detalle {
+  position: fixed; inset: 0; z-index: var(--z-overlay);
+  background: #fff; overflow-y: auto;
+  padding: 0 0 5vh;
+  display: flex; flex-direction: column; gap: 4vh;
+}
+.foto-detalle[hidden] { display: none; }
+/* full-bleed image, pushed below the (taller, multiline) navbar */
+.foto-detalle__fig { position: relative; margin: calc(var(--header-real, 130px) + 2vh) 0 0; width: 100%; height: 58vh; flex: none; cursor: zoom-out; overflow: visible; }
+.foto-detalle__fig img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.foto-detalle__cols { display: grid; grid-template-columns: 1.2fr 1fr 1fr 0.8fr; gap: 3vw; align-items: start; position: relative; padding: 0 var(--pad-x); }
+.foto-detalle__txt { font-size: 0.72rem; line-height: 1.6; margin: 0; }
+.foto-detalle__meta { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 4vh; height: 100%; }
+.foto-detalle__tag { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.12em; margin: 0; text-align: right; line-height: 1.4; }
+.foto-detalle__fish { width: clamp(70px, 7vw, 110px); height: auto; }
+/* one large rama drawing that crosses the boundary: over the photo (top half)
+   and on into the white text area (bottom half). mix-blend keeps it white over
+   the photo and grey over the white below. */
+.foto-detalle__rama { position: absolute; left: 0; bottom: -26vh; width: clamp(320px, 38vw, 620px); color: #fff; mix-blend-mode: difference; opacity: 0.6; pointer-events: none; z-index: 3; }
+.foto-detalle__rama svg { width: 100%; height: auto; display: block; }
+
+@media (max-width: 760px) {
+  .foto-detalle__cols { grid-template-columns: 1fr 1fr; }
+  .foto-detalle__spacer { display: none; }
+  .site-header__nav { gap: 0.9rem; }
+}

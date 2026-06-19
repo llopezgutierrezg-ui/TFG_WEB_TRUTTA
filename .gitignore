@@ -1,0 +1,14 @@
+node_modules
+dist
+.DS_Store
+*.local
+*.log
+.vite
+
+# Editor / tooling local config (machine-specific paths)
+.claude/
+.vscode/
+.idea/
+
+# Source (heavy, unoptimized) assets live outside the repo; only optimized output in /public is committed
+/_raw_assets

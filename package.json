@@ -1,0 +1,21 @@
+{
+  "name": "trutta",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "TRUTTA · Visual Storytelling — SPA interactiva sobre los ríos de la España Vaciada",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "optimize:img": "node scripts/optimize-images.mjs"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "pixi.js": "^8.6.6"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5",
+    "vite": "^5.4.11"
+  }
+}

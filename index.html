@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRUTTA · Visual Storytelling</title>
+  <meta name="description" content="Un recorrido inmersivo por los ríos de la España Vaciada." />
+</head>
+<body style="opacity:0">
+  <canvas id="ripple"></canvas>
+
+  <header class="site-header">
+    <div class="site-header__date">
+      <img src="/svg/fecha.svg" alt="2026" />
+    </div>
+    <div class="site-header__brand">
+      <img class="site-header__logo" src="/svg/logo-trutta.svg" alt="TRUTTA" />
+      <div class="tagline">Visual Storytelling</div>
+    </div>
+    <nav class="site-header__nav">
+      <button type="button" data-goto="landing">TRUTTA</button>
+      <button type="button" data-goto="archivo" data-i18n="nav_archivo">ARCHIVO</button>
+      <button type="button" data-goto="experiencias" data-i18n="nav_experiencias">EXPERIENCIAS</button>
+      <button type="button" data-goto="manifiesto" data-i18n="nav_manifiesto">MANIFIESTO</button>
+      <button type="button" class="site-header__lang">ESP / ENG</button>
+    </nav>
+  </header>
+
+  <main id="app"></main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

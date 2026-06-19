@@ -1,0 +1,78 @@
+/* ============================================================
+   TRUTTA · Design tokens
+   Brutalist / normative editorial system — B&W + warm off-white
+   ============================================================ */
+
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis-Light.otf') format('opentype');
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis-SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Metropolis';
+  src: url('/fonts/Metropolis-Black.otf') format('opentype');
+  font-weight: 900;
+  font-display: swap;
+}
+
+:root {
+  /* Palette */
+  --c-bg: #ffffff;
+  --c-ink: #0a0a0a;
+  --c-black: #000000;
+  --c-cream: #ece7e3;      /* warm off-white used on black frames */
+  --c-gray: #b0b0b0;       /* placeholder rectangles */
+  --c-line: #d8d4d0;
+
+  /* Typography */
+  --font-grotesk: 'Metropolis', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /* Handwritten brand face — placeholder until the digitized TRUTTA face is ready */
+  --font-hand: 'Bradley Hand', 'Segoe Print', 'Comic Sans MS', cursive;
+
+  /* Fluid type scale */
+  --fs-nav: 0.72rem;
+  --fs-body: 0.82rem;
+  --fs-lead: clamp(0.9rem, 1vw, 1.05rem);
+  --fs-section: clamp(2rem, 4vw, 3rem);
+  --fs-display: clamp(4rem, 11vw, 11rem);
+
+  /* Layout */
+  --pad-x: clamp(1.25rem, 3vw, 2.5rem);
+  --header-h: 64px;
+  --grid-cols: 12;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Z-index scale */
+  --z-ripple: 0;
+  --z-content: 10;
+  --z-header: 100;
+  --z-overlay: 200;
+}
