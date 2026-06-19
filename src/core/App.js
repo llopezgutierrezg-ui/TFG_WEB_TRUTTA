@@ -126,10 +126,13 @@ export class App {
     this._floatBtn = btn;
 
     const render = () => {
+      const label = this._motionOn ? 'Desactivar animaciones' : 'Activar animaciones';
       btn.setAttribute('aria-pressed', String(!this._motionOn));
+      btn.setAttribute('aria-label', label);          // full text for screen readers (collapsed)
+      btn.setAttribute('title', label);
       btn.classList.toggle('is-off', !this._motionOn);
       btn.innerHTML = `<span class="float-toggle__wave" aria-hidden="true">≈</span>
-        <span>${this._motionOn ? 'Desactivar animaciones' : 'Activar animaciones'}</span>`;
+        <span class="float-toggle__label">${label}</span>`;
     };
     btn.addEventListener('click', () => {
       this._motionOn = !this._motionOn;

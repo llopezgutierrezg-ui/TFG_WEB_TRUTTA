@@ -36,7 +36,7 @@ export class Bitacoras {
 
   _build() {
     this.root.innerHTML = `
-      <h2 class="bitacoras__title u-handwritten" data-i18n="bitacoras_title">BITÁCORAS</h2>
+      <h2 class="bitacoras__title u-handwritten" data-i18n="bitacoras_title">EXPERIENCIAS</h2>
       <p class="archivos__sub" data-i18n="bitacoras_sub">Registro documental de ecosistemas bajo auditoría institucional.<br>
         y como se relacionan con los pueblos.</p>
       <div class="bita__viewport"></div>

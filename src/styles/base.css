@@ -76,18 +76,26 @@ a { color: inherit; text-decoration: none; }
 }
 .site-header__nav button { background: none; border: 0; color: inherit; letter-spacing: inherit; cursor: pointer; }
 .site-header__nav button:hover { opacity: 0.6; }
-/* floating-motion toggle (fixed, never floats itself) */
+/* accessibility toggle: a small floating icon that expands on hover to reveal
+   its label. Fixed in the corner, never floats itself. */
 .float-toggle {
-  position: fixed; left: 1.2rem; bottom: 1.2rem; z-index: 150;
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  background: rgba(18,18,18,0.62); color: #fff; border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 999px; padding: 0.5rem 0.95rem;
-  font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
-  backdrop-filter: blur(6px); transition: background 0.3s, opacity 0.3s;
+  position: fixed; left: 1.1rem; bottom: 1.1rem; z-index: 150;
+  display: flex; align-items: center; height: 44px; width: 44px; padding: 0;
+  border-radius: 999px; overflow: hidden; white-space: nowrap; cursor: pointer;
+  background: rgba(18,18,18,0.55); color: #fff; border: 1px solid rgba(255,255,255,0.22);
+  backdrop-filter: blur(6px);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
 }
-.float-toggle:hover { background: rgba(18,18,18,0.85); }
-.float-toggle.is-off { opacity: 0.72; }
-.float-toggle__wave { font-size: 0.95rem; line-height: 0; }
+.float-toggle:hover, .float-toggle:focus-visible { width: 14.5rem; background: rgba(18,18,18,0.82); }
+.float-toggle__wave { flex: none; width: 44px; text-align: center; font-size: 1.15rem; line-height: 1; }
+.float-toggle__label {
+  flex: none; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding-right: 1.1rem; opacity: 0; transition: opacity 0.25s 0.05s;
+}
+.float-toggle:hover .float-toggle__label,
+.float-toggle:focus-visible .float-toggle__label { opacity: 1; }
+.float-toggle.is-off { opacity: 0.82; }
+.float-toggle.is-off .float-toggle__wave { text-decoration: line-through; }
 
 /* panic mode: freeze all CSS-driven motion (the float + ripple are frozen in JS) */
 body.no-motion *,

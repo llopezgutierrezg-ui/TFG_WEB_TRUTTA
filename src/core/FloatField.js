@@ -21,7 +21,8 @@ const SELECTOR = [
   '.intro__ph', '.expo__ph',
   '.expo__name', '.expo__num', '.expo__heading',
   '.archivos__title', '.bitacoras__title',
-  '.banner__logo-main', '.site-footer__fish', '.site-footer__logo',
+  '.banner__kicker', '.banner__logo-main',
+  '.site-footer__fish', '.site-footer__logo',
   '.intro__lead', '.expo__desc',
   // NOTE: buttons (.expo__cta, .bita__share, .float-toggle) are intentionally
   // excluded so they never drift under the cursor.

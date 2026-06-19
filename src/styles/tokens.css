@@ -40,6 +40,14 @@
   font-display: swap;
 }
 
+/* TRUTTA — fuente manuscrita oficial del diseño (Figma) */
+@font-face {
+  font-family: 'TruttaFont';
+  src: url('../fonts/TruttaFont-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+
 :root {
   /* Palette */
   --c-bg: #ffffff;
@@ -51,14 +59,14 @@
 
   /* Typography */
   --font-grotesk: 'Metropolis', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  /* Handwritten brand face — placeholder until the digitized TRUTTA face is ready */
-  --font-hand: 'Bradley Hand', 'Segoe Print', 'Comic Sans MS', cursive;
+  /* Handwritten brand face — fuente oficial TRUTTA */
+  --font-hand: 'TruttaFont', 'Bradley Hand', 'Segoe Print', cursive;
 
   /* Fluid type scale */
   --fs-nav: 0.72rem;
   --fs-body: 0.82rem;
   --fs-lead: clamp(0.9rem, 1vw, 1.05rem);
-  --fs-section: clamp(2rem, 4vw, 3rem);
+  --fs-section: clamp(2.35rem, 4.6vw, 3.5rem);
   --fs-display: clamp(4rem, 11vw, 11rem);
 
   /* Layout */

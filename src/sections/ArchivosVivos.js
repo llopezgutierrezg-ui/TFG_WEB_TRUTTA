@@ -11,7 +11,7 @@
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { pool, guidePath, asset } from '../core/Assets.js';
+import { pool, asset } from '../core/Assets.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -114,10 +114,9 @@ export class ArchivosVivos {
     this._show();
 
     const APARTADOS = ['EL ORIGEN', 'EL UMBRAL', 'EL CAUCE', 'DESENLACE'];
-    const guideD = await guidePath();
     const allPhotos = pool(20, { thumb: false }); // 5 per apartado → "FOTO x/20"
 
-    this.root.innerHTML = APARTADOS.map((name, i) => this._apartadoMarkup(i, name, guideD)).join('');
+    this.root.innerHTML = APARTADOS.map((name, i) => this._apartadoMarkup(i, name)).join('');
 
     this._sts = [];
     APARTADOS.forEach((name, i) => {
@@ -129,7 +128,7 @@ export class ArchivosVivos {
     return gsap.fromTo(this.root, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5 });
   }
 
-  _apartadoMarkup(i, name, guideD) {
+  _apartadoMarkup(i, name) {
     return `
       <section class="apartado" data-i="${i}">
         <div class="apartado__pin">
@@ -138,11 +137,6 @@ export class ArchivosVivos {
             <h2 class="apartado__name">${name}</h2>
           </div>
           <div class="apartado__scene">
-            <svg class="apartado__guide" viewBox="0 0 1313 911" preserveAspectRatio="xMidYMid meet">
-              <path d="${guideD || 'M40,120 C300,60 360,360 600,300 S960,520 900,720'}"
-                    fill="none" stroke="var(--c-gray)" stroke-width="2.5"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
             <aside class="apartado__col apartado__col--l"></aside>
             <div class="apartado__stack"></div>
             <aside class="apartado__col apartado__col--r"></aside>
@@ -162,7 +156,6 @@ export class ArchivosVivos {
     const title = section.querySelector('.apartado__title');
     const scene = section.querySelector('.apartado__scene');
     const stack = section.querySelector('.apartado__stack');
-    const path = section.querySelector('.apartado__guide path');
     const colL = section.querySelector('.apartado__col--l');
     const colR = section.querySelector('.apartado__col--r');
 
@@ -196,8 +189,6 @@ export class ArchivosVivos {
       };
     });
 
-    const len = path.getTotalLength();
-    gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
     gsap.set(scene, { autoAlpha: 0 });
 
     const N = tiles.length;
@@ -245,8 +236,6 @@ export class ArchivosVivos {
           });
         });
         setCaption(Math.round(clamp(0, N - 1, active)));
-        // guide line draws through the depth-scroll phase, completing at p = 1
-        gsap.set(path, { strokeDashoffset: len * (1 - scrollP) });
         if (isLast) this._toggleEndCTAs(p > 0.96);
       },
     });
