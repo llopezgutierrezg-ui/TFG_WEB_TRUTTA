@@ -11,7 +11,7 @@
  * onStart(rio) is fired by a river's CTA to kick off the recorrido.
  */
 import { gsap } from 'gsap';
-import { pool, rivers } from '../core/Assets.js';
+import { pool, rivers, asset } from '../core/Assets.js';
 
 const TRAIL_SIZE = 16;
 const SPAWN_DIST = 90;
@@ -45,7 +45,7 @@ export class Landing {
         <span class="banner__rama banner__rama--r rama" data-rama="der" aria-hidden="true"></span>
         <div class="banner__head">
           <span class="banner__kicker" data-i18n="banner_kicker">SISTEMA DE ARCHIVO DOCUMENTAL</span>
-          <img class="banner__logo-main" src="/svg/logo-trutta.svg" alt="TRUTTA" />
+          <img class="banner__logo-main" src="${asset('svg/logo-trutta.svg')}" alt="TRUTTA" />
         </div>
       </div>
 
@@ -74,11 +74,11 @@ export class Landing {
 
       <footer class="site-footer">
         <div class="site-footer__claim-row">
-          <img class="site-footer__fish" src="/svg/pez.svg" alt="" aria-hidden="true" />
+          <img class="site-footer__fish" src="${asset('svg/pez.svg')}" alt="" aria-hidden="true" />
           <p class="site-footer__claim u-handwritten" data-i18n="footer_claim">DISEÑO PARA<br>CONSERVAR LO QUE FLUYE</p>
         </div>
         <div class="site-footer__dark">
-          <img class="site-footer__logo" src="/svg/logo-trutta.svg" alt="TRUTTA" />
+          <img class="site-footer__logo" src="${asset('svg/logo-trutta.svg')}" alt="TRUTTA" />
           <div class="site-footer__mid">
             <nav class="site-footer__links">
               <a href="#">For designers</a>
@@ -119,7 +119,7 @@ export class Landing {
      intro — matching Figma. */
   async _inlineRamas() {
     const cache = {};
-    const get = async (n) => (cache[n] ??= await (await fetch(`/svg/ramas-${n}.svg`)).text());
+    const get = async (n) => (cache[n] ??= await (await fetch(asset(`svg/ramas-${n}.svg`))).text());
     for (const el of this.root.querySelectorAll('[data-rama]')) {
       try { el.innerHTML = await get(el.dataset.rama); } catch { /* keep empty */ }
     }

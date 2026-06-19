@@ -11,7 +11,7 @@
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { pool, guidePath } from '../core/Assets.js';
+import { pool, guidePath, asset } from '../core/Assets.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,7 +56,7 @@ export class ArchivosVivos {
     this.root.className = 'state state--dark state--flow';
     this._show();
     this.root.innerHTML = `
-      <video class="flow__video" src="/video/placeholder.mp4"
+      <video class="flow__video" src="${asset('video/placeholder.mp4')}"
              autoplay muted playsinline></video>
       <button class="flow__skip" type="button">SALTAR ▸</button>`;
     const video = this.root.querySelector('.flow__video');
@@ -79,7 +79,7 @@ export class ArchivosVivos {
       this.root.innerHTML = `
         <div class="manifiesto">
           <div class="manifiesto__main">
-            <img class="manifiesto__fish" src="/svg/pez.svg" alt="" aria-hidden="true" />
+            <img class="manifiesto__fish" src="${asset('svg/pez.svg')}" alt="" aria-hidden="true" />
             <div class="manifiesto__text">
               <p class="manifiesto__lead">No somos una plataforma de turismo rural ni un destino de ocio.
               Somos una barrera arquitectónica, una aduana conductual y una advertencia institucional.</p>
@@ -92,7 +92,7 @@ export class ArchivosVivos {
               garantizar que el paisaje sobreviva a la huella humana.</p>
             </div>
           </div>
-          <img class="manifiesto__date" src="/svg/fecha.svg" alt="2026" />
+          <img class="manifiesto__date" src="${asset('svg/fecha.svg')}" alt="2026" />
         </div>`;
     }
     this._timers.push(setTimeout(

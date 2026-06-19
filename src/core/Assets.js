@@ -4,10 +4,19 @@
  */
 let _manifest = [];
 
+/** Prefix a public-asset path with the deploy base so it works under a subpath
+ *  (e.g. GitHub Pages at /TFG_WEB_TRUTTA/). Accepts paths with or without a slash. */
+export const asset = (p) => import.meta.env.BASE_URL + String(p).replace(/^\/+/, '');
+
 export async function loadManifest() {
   try {
-    const res = await fetch('/img/manifest.json');
+    const res = await fetch(asset('img/manifest.json'));
     _manifest = await res.json();
+    // make the photo URLs base-aware too (manifest stores them as /img/…)
+    _manifest.forEach((m) => {
+      if (m.src?.full) m.src.full = asset(m.src.full);
+      if (m.src?.thumb) m.src.thumb = asset(m.src.thumb);
+    });
   } catch {
     console.warn('[Assets] manifest.json no encontrado — ejecuta `npm run optimize:img`');
     _manifest = [];
@@ -22,7 +31,7 @@ let _guideD;
 export async function guidePath() {
   if (_guideD !== undefined) return _guideD;
   try {
-    const txt = await (await fetch('/svg/guide.svg')).text();
+    const txt = await (await fetch(asset('svg/guide.svg'))).text();
     const doc = new DOMParser().parseFromString(txt, 'image/svg+xml');
     _guideD = doc.querySelector('path')?.getAttribute('d') || null;
   } catch {

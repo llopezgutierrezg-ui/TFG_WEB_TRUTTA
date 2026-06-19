@@ -5,6 +5,7 @@
  * ESC / click on the backdrop / ✕ closes.
  */
 import { gsap } from 'gsap';
+import { asset } from '../core/Assets.js';
 
 const TXT = `La trucha común (Salmo trutta) es el organismo indicador más confiable para evaluar la salud de
 ecosistemas acuáticos de aguas frías. Su presencia confirma condiciones de oxigenación excepcional,
@@ -29,7 +30,7 @@ export class FotoDetalle {
         <p class="foto-detalle__txt">${TXT}</p>
         <div class="foto-detalle__meta">
           <p class="foto-detalle__tag"><span data-i18n="fotografia">FOTOGRAFÍA</span><br><span data-n>12</span>/20</p>
-          <img class="foto-detalle__fish" src="/svg/pez.svg" alt="" aria-hidden="true" />
+          <img class="foto-detalle__fish" src="${asset('svg/pez.svg')}" alt="" aria-hidden="true" />
         </div>
       </div>`;
     app.appendChild(this.el);
@@ -42,7 +43,7 @@ export class FotoDetalle {
   }
 
   async _inlineRama() {
-    try { this.el.querySelector('[data-rama]').innerHTML = await (await fetch('/svg/ramas-izq.svg')).text(); }
+    try { this.el.querySelector('[data-rama]').innerHTML = await (await fetch(asset('svg/ramas-izq.svg'))).text(); }
     catch { /* keep empty */ }
   }
 
