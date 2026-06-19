@@ -61,14 +61,23 @@ npm run preview  # sirve la build de /dist
 │   ├── core/               # App, máquina de estados, i18n, FloatField, Assets
 │   ├── background/         # RippleBackground (PixiJS)
 │   ├── sections/           # Landing, ArchivosVivos (recorrido), Bitacoras, Form, FotoDetalle
-│   └── styles/             # tokens, base, sections
+│   ├── styles/             # tokens, base, sections
+│   └── fonts/              # Metropolis (.otf) — empaquetadas por Vite
 ├── public/
 │   ├── img/                # fotos optimizadas (WebP) + manifest.json
 │   ├── svg/                # logo, fecha, ramas, pez, línea-guía
-│   ├── fonts/              # Metropolis (.otf)
 │   └── video/              # vídeo placeholder del recorrido
-└── scripts/optimize-images.mjs
+├── scripts/optimize-images.mjs
+└── .github/workflows/      # deploy.yml (GitHub Pages)
 ```
+
+## 🌐 Despliegue (GitHub Pages)
+
+El repo incluye un workflow de **GitHub Actions** (`.github/workflows/deploy.yml`) que compila
+con Vite y publica en GitHub Pages en cada `push` a `main`. El `base` se ajusta solo al nombre
+del repositorio (se sirve en `https://<usuario>.github.io/<repo>/`).
+
+Para activarlo: en GitHub → **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
 ## 🖼️ Nota sobre los assets
 
