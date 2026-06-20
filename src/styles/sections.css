@@ -36,21 +36,23 @@
 .banner__trail-img {
   position: absolute; top: 0; left: 0;
   width: clamp(280px, 24vw, 380px); aspect-ratio: 16 / 10; object-fit: cover;
+  border: 4px solid #fff; box-sizing: border-box;
   will-change: transform, opacity;
 }
 /* rama line-art: outline only (no fill), colour via currentColor */
 .rama svg path { fill: none !important; stroke: currentColor !important; stroke-width: 1px; vector-effect: non-scaling-stroke; }
 /* 2-LAYER RAMAS straddling the hero↔intro seam (one drawing, split by colour):
    white halves live in the banner and are clipped at its bottom edge (the seam). */
-.banner__rama { position: absolute; pointer-events: none; z-index: 1; color: #fff; opacity: 0.9; }
+.banner__rama { position: absolute; pointer-events: none; z-index: 1; color: #fff; opacity: 1; }
 .banner__rama svg { width: 100%; height: auto; display: block; }
-/* hero ramas: white OUTLINE sketch (no fill), continuous with the grey outline
-   in the intro. The Figma-cropped viewBox keeps the line-art clean. */
-.banner__rama svg path { fill: none !important; stroke: #fff !important; stroke-width: 1.2px; }
-.banner__rama--l { left: 0vw;  width: 36.22vw; top: calc(100% - 26.5vw); }
-.banner__rama--r { left: 74vw; width: 25.84vw; top: calc(100% - 28vw); }
+/* hero ramas, split at the seam: white SOLID fill over the photo (banner), and
+   over the white intro just a black OUTLINE (no fill) so it reads as line-art. */
+.banner__rama svg path { fill: #fff !important; stroke: none !important; }
+.intro__rama svg path { fill: none !important; stroke: #000 !important; stroke-width: 1px; }
+.banner__rama--l { left: 0vw;  width: 44.3vw; top: calc(100% - 26.5vw); }
+.banner__rama--r { left: 74vw; width: 67vw;   top: calc(100% - 28vw); }
 .banner__head { position: relative; z-index: 2; text-align: center; }
-.banner__kicker { font-size: 1.2rem; letter-spacing: 0; text-transform: uppercase; }
+.banner__kicker { font-size: 0.95rem; font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase; }
 .banner__logo-main { width: clamp(320px, 44vw, 720px); height: auto; margin-top: 1.2rem; display: block; }
 
 /* --- intro --- */
@@ -61,8 +63,8 @@
    by the white banner halves) so together they read as one continuous drawing */
 .intro__rama { position: absolute; pointer-events: none; z-index: 0; color: #554D56; opacity: 0.65; }
 .intro__rama svg { width: 100%; height: auto; display: block; }
-.intro__rama--l { left: 0vw;  width: 36.22vw; top: -26.5vw; clip-path: inset(26.5vw 0 0 0); }
-.intro__rama--r { left: 74vw; width: 25.84vw; top: -28vw;   clip-path: inset(28vw 0 0 0); }
+.intro__rama--l { left: 0vw;  width: 44.3vw; top: -26.5vw; clip-path: inset(26.5vw 0 0 0); }
+.intro__rama--r { left: 74vw; width: 67vw;   top: -28vw;   clip-path: inset(28vw 0 0 0); }
 .intro__photos { position: absolute; inset: 0; z-index: 1; }
 .intro__ph { position: absolute; object-fit: cover; }
 .intro__ph--0 { left: 62.85vw; top: 4.86vw;  width: 16.25vw; height: 20.00vw; } /* Rect622 */
@@ -113,7 +115,7 @@
 
 .expo__name {
   position: absolute; left: 48.5%; top: 48%; transform: translate(-50%, -50%);
-  font-size: 5.25cqw; line-height: 0.95; text-align: center;
+  height: 20cqw; width: auto; display: block;
 }
 .expo__cta {
   position: absolute; left: 50%; top: 95.8%; transform: translateX(-50%);
@@ -223,8 +225,14 @@
 /* --- footer --- */
 .site-footer { background: var(--c-bg); }
 .site-footer__claim-row { display: flex; align-items: center; gap: 1.6rem; padding: 12vh var(--pad-x) 5vh; }
-.site-footer__fish { width: clamp(90px, 9vw, 133px); height: auto; }
-.site-footer__claim { font-size: 1.45rem; line-height: 1.1; margin: 0; }
+.site-footer__fish {
+  width: clamp(90px, 9vw, 133px); aspect-ratio: 133 / 60; display: inline-block;
+  background-color: #8A9A5B;   /* verde musgo */
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-size: contain;    mask-size: contain;
+  -webkit-mask-position: center; mask-position: center;
+}
+.site-footer__claim { font-family: var(--font-grotesk); font-weight: 500; font-size: 1.45rem; line-height: 1.1; margin: 0; }
 .site-footer__dark {
   background: #0C1213; color: var(--c-cream);
   min-height: 280px; padding: 2.6rem var(--pad-x);
@@ -258,7 +266,7 @@
   padding: 0.5rem 1rem; font-size: var(--fs-nav); letter-spacing: 0.18em; backdrop-filter: blur(4px);
 }
 .flow__texto { text-align: center; padding: var(--pad-x); }
-.flow__lozoya { font-size: clamp(3.4rem, 9vw, 6.8rem); line-height: 0.95; margin: 0; color: #fff; letter-spacing: 0.05em; }
+.flow__lozoya { height: clamp(13rem, 48vh, 24rem); width: auto; display: block; margin: 0 auto; }
 .flow__manifiesto { max-width: 60ch; }
 .flow__lead { font-size: var(--fs-lead); font-weight: 600; line-height: 1.45; color: var(--c-cream); }
 
@@ -286,8 +294,10 @@
   display: flex; flex-direction: column; justify-content: flex-end;
   padding: 0 var(--pad-x) 8vh;
 }
-.apartado__num { font-size: clamp(5rem, 10.5vw, 9rem); line-height: 1; }
-.apartado__name { font-size: clamp(2.6rem, 6vw, 5.5rem); font-weight: 900; margin: 0; line-height: 0.9; letter-spacing: -0.01em; }
+/* huge title cards: DESENLACE (widest name) nearly fills the viewport; the "01"
+   block reaches the right edge of the vertical stem of the "L" in "EL ORIGEN". */
+.apartado__num { font-size: 11.5vw; line-height: 1; }
+.apartado__name { font-size: 15.6vw; font-weight: 600; margin: 0; line-height: 0.9; letter-spacing: -0.01em; }
 
 /* white documentation scene */
 .apartado__scene { position: absolute; inset: 0; z-index: 1; background: var(--c-bg); }

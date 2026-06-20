@@ -74,8 +74,8 @@ export class Landing {
 
       <footer class="site-footer">
         <div class="site-footer__claim-row">
-          <img class="site-footer__fish" src="${asset('svg/pez.svg')}" alt="" aria-hidden="true" />
-          <p class="site-footer__claim u-handwritten" data-i18n="footer_claim">DISEÑO PARA<br>CONSERVAR LO QUE FLUYE</p>
+          <span class="site-footer__fish" aria-hidden="true" style="-webkit-mask-image:url('${asset('svg/pez.svg')}');mask-image:url('${asset('svg/pez.svg')}')"></span>
+          <p class="site-footer__claim" data-i18n="footer_claim">DISEÑO PARA<br>CONSERVAR LO QUE FLUYE</p>
         </div>
         <div class="site-footer__dark">
           <img class="site-footer__logo" src="${asset('svg/logo-trutta.svg')}" alt="TRUTTA" />
@@ -131,7 +131,6 @@ export class Landing {
     const basin = rio === 'lozoya'
       ? 'afluente del Jarama en la Comunidad de Madrid'
       : 'afluente del Tajo entre Ávila y Toledo';
-    const nameLines = (name.match(/.{1,2}/g) || [name]).join('<br>');
     // Exact Figma layout (Frame 268: 1383×1579) — photos absolutely placed,
     // text in container-relative units so it scales with the frame.
     return `
@@ -152,7 +151,7 @@ export class Landing {
                 habitante más exigente.</p>
             </div>
           </div>
-          <div class="expo__name u-handwritten">${nameLines}</div>
+          <img class="expo__name" src="${asset(`svg/${rio}.svg`)}" alt="${name}">
           <button class="expo__cta btn-fill" data-i18n="expo_cta">INICIAR RECORRIDO</button>
         </div>
       </article>`;

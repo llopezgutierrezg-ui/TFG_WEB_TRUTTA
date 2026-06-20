@@ -80,12 +80,13 @@ export class FloatField {
     });
   }
 
-  /** Cache each element's rest centre (corrected for its current applied offset). */
+  /** Cache each element's rest rect + centre (corrected for its applied offset). */
   _measure() {
     for (const it of this.items) {
       const r = it.el.getBoundingClientRect();
-      it.cx = r.left + r.width / 2 - it.x;
-      it.cy = r.top + r.height / 2 - it.y;
+      it.l = r.left - it.x; it.t = r.top - it.y;       // rest-position rect edges
+      it.rr = r.right - it.x; it.bb = r.bottom - it.y;
+      it.cx = (it.l + it.rr) / 2; it.cy = (it.t + it.bb) / 2;
     }
     this._dirty = false;
   }
@@ -119,14 +120,20 @@ export class FloatField {
     const { mx, my } = this;
     for (const it of this.items) {
       let tx = 0, ty = 0;
-      const dx = mx - it.cx, dy = my - it.cy;
-      const dist = Math.hypot(dx, dy);
-      if (dist < RADIUS) {
-        // sway toward the cursor, fading out with distance; 0 right under it
-        const influence = 1 - dist / RADIUS;        // 1 near → 0 at the edge
-        const mag = Math.min(MAX_OFFSET, MAX_OFFSET * influence);
-        tx = (dx / (dist || 1)) * mag;
-        ty = (dy / (dist || 1)) * mag;
+      // distance from the cursor to the element's RECT (0 while hovering over it),
+      // so big blocks react when the pointer is on them — not only near the centre.
+      const nx = mx < it.l ? it.l : (mx > it.rr ? it.rr : mx);
+      const ny = my < it.t ? it.t : (my > it.bb ? it.bb : my);
+      const edge = Math.hypot(mx - nx, my - ny);
+      if (edge < RADIUS) {
+        const influence = 1 - edge / RADIUS;        // 1 over the block → 0 at the edge of reach
+        const dx = mx - it.cx, dy = my - it.cy;     // sway toward the cursor's side
+        const d = Math.hypot(dx, dy) || 1;
+        // magnitude grows from the centre (0) out to MAX_OFFSET, so it reacts all
+        // over the block yet glides smoothly through the middle (no sign flip).
+        const mag = Math.min(MAX_OFFSET, d) * influence;
+        tx = (dx / d) * mag;
+        ty = (dy / d) * mag;
       }
       // inertia: ease the current offset toward the target (water-like drift)
       it.x += (tx - it.x) * EASE;

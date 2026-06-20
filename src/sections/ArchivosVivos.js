@@ -72,7 +72,7 @@ export class ArchivosVivos {
     this._show();
     if (which === 'A') {
       this.root.className = 'state state--dark state--flow';
-      this.root.innerHTML = `<div class="flow__texto"><h2 class="u-handwritten flow__lozoya">LO<br>ZO<br>YA</h2></div>`;
+      this.root.innerHTML = `<div class="flow__texto"><img class="flow__lozoya" src="${asset('svg/lozoya-blanco.svg')}" alt="LOZOYA"></div>`;
     } else {
       // Desktop 16 — manifiesto: fish + statement bottom-left, date bottom-right
       this.root.className = 'state state--dark';
