@@ -66,8 +66,9 @@ export class App {
       onShareClick: () => this.form.open(),
     });
 
-    // floating-on-water motion for the landing objects, with an on-screen toggle
-    this.float = new FloatField(this.landing.root);
+    // floating-on-water motion for the whole site's objects, with an on-screen
+    // toggle (rooted at #app so it reaches every section, not just the landing)
+    this.float = new FloatField(appEl);
     this._setupFloat();
 
     // 6) register states
@@ -152,10 +153,11 @@ export class App {
     this._syncFloat();
   }
 
-  /** Run the float only while motion is on AND the landing is the active state. */
+  /** Run the float across every section while motion is on (the field re-collects
+      its targets on each section/overlay swap, so it follows the whole site). */
   _syncFloat() {
     if (!this.float) return;
-    if (this._motionOn && this.fsm.currentName === 'landing') this.float.start();
+    if (this._motionOn) this.float.start();
     else this.float.stop();
   }
 }

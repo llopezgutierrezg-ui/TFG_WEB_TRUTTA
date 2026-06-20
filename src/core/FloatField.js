@@ -17,14 +17,31 @@
  */
 import { gsap } from 'gsap';
 
+// Allowlist of driftable elements across the WHOLE site (every section we've
+// built), so the river-float reacts wherever the cursor goes — not just the
+// landing. Buttons/CTAs are never listed, so they stay put and clickable.
 const SELECTOR = [
-  '.intro__ph', '.expo__ph',
-  '.expo__name', '.expo__num', '.expo__heading',
-  '.archivos__title', '.bitacoras__title',
+  // landing · banner + intro
   '.banner__kicker', '.banner__logo-main',
-  '.site-footer__fish', '.site-footer__logo',
-  '.intro__lead', '.expo__desc',
-  // NOTE: buttons (.expo__cta, .bita__share, .float-toggle) are intentionally
+  '.intro__ph', '.intro__lead',
+  // landing · archivos vivos expositores
+  '.archivos__title', '.archivos__sub',
+  '.expo__ph', '.expo__name', '.expo__num',
+  '.expo__heading', '.expo__vol', '.expo__desc-short', '.expo__desc',
+  // landing · experiencias (bitácoras) — text only (photos are buttons)
+  '.bitacoras__title', '.bita__author', '.bita__message', '.bita__place',
+  '.bita__quote-sm', '.bita__quote-lg',
+  // landing · footer
+  '.site-footer__fish', '.site-footer__logo', '.site-footer__claim',
+  '.site-footer__col-h', '.site-footer__copy',
+  // recorrido (ArchivosVivos): rótulo, manifiesto, apartados
+  '.flow__lozoya',
+  '.manifiesto__fish', '.manifiesto__lead', '.manifiesto__body',
+  '.apartado__num', '.apartado__name', '.foto-tag', '.foto-desc',
+  // overlay foto-detalle
+  '.foto-detalle__txt', '.foto-detalle__tag', '.foto-detalle__fish',
+  // NOTE: buttons/CTAs (.expo__cta, .bita__share, .bita__arrow, .bita__cell,
+  // .apartado__ph, .flow__skip, .btn-line, .float-toggle) are intentionally
   // excluded so they never drift under the cursor.
 ].join(', ');
 
@@ -39,15 +56,27 @@ export class FloatField {
     this.items = [];
     this.mx = -9999; this.my = -9999; // cursor in viewport coords (offscreen at first)
     this._dirty = true;               // rects need re-measuring (scroll/resize)
+    this._needsCollect = true;        // the element set changed (section/overlay swap)
     this._onMove = (e) => { this.mx = e.clientX; this.my = e.clientY; };
     this._onScrollOrResize = () => { this._dirty = true; };
     this._tick = this._tick.bind(this);
+    // sections and overlays are built/destroyed and shown/hidden on the fly, so
+    // re-collect whenever the DOM tree changes or a [hidden] toggles (overlay
+    // open/close). The callback only flips a flag — the work runs once per frame.
+    this._mo = new MutationObserver(() => { this._needsCollect = true; });
   }
 
   _collect() {
+    // carry over the live offset for elements that survive a re-collect, so a
+    // DOM mutation (carousel re-render, overlay swap) doesn't snap them to rest.
+    const prev = new Map(this.items.map((it) => [it.el, it]));
     this.items = [...this.root.querySelectorAll(SELECTOR)].map((el) => {
       el.style.willChange = 'translate';
-      return { el, cx: 0, cy: 0, x: 0, y: 0 }; // centre (cx,cy) + current offset (x,y)
+      // `translate`/`transform` don't apply to non-replaced inline elements
+      // (e.g. the .banner__kicker <span>) → promote them so the sway shows.
+      if (getComputedStyle(el).display === 'inline') el.style.display = 'inline-block';
+      const p = prev.get(el);
+      return { el, cx: 0, cy: 0, x: p ? p.x : 0, y: p ? p.y : 0 }; // centre (cx,cy) + current offset (x,y)
     });
   }
 
@@ -63,12 +92,13 @@ export class FloatField {
 
   start() {
     if (this.running) return;
-    if (!this.items.length) this._collect();
+    this._needsCollect = true;
     this._dirty = true;
     this.running = true;
     window.addEventListener('pointermove', this._onMove, { passive: true });
     window.addEventListener('scroll', this._onScrollOrResize, { passive: true });
     window.addEventListener('resize', this._onScrollOrResize, { passive: true });
+    this._mo.observe(this.root, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
     gsap.ticker.add(this._tick);
   }
 
@@ -78,13 +108,14 @@ export class FloatField {
     window.removeEventListener('pointermove', this._onMove);
     window.removeEventListener('scroll', this._onScrollOrResize);
     window.removeEventListener('resize', this._onScrollOrResize);
+    this._mo.disconnect();
     gsap.ticker.remove(this._tick);
     for (const it of this.items) { it.x = 0; it.y = 0; it.el.style.translate = ''; }
   }
 
   _tick() {
-    if (this.root.hidden) return;      // landing not visible → nothing to move
-    if (this._dirty) this._measure();  // re-measure only after a scroll/resize
+    if (this._needsCollect) { this._collect(); this._needsCollect = false; this._dirty = true; }
+    if (this._dirty) this._measure();  // re-measure after a scroll/resize/recollect
     const { mx, my } = this;
     for (const it of this.items) {
       let tx = 0, ty = 0;

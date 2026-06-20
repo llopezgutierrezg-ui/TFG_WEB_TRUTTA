@@ -8,7 +8,7 @@
  * The form injects new entries via add(), which recalculates and re-animates.
  */
 import { gsap } from 'gsap';
-import { pool } from '../core/Assets.js';
+import { pool, asset } from '../core/Assets.js';
 
 const AUTOPLAY_MS = 5000;
 
@@ -74,13 +74,13 @@ export class Bitacoras {
             </div>
           </div>
           <aside class="bita__testimonial">
-            <span class="bita__quote-sm">&rdquo;</span>
+            <img class="bita__quote-sm" src="${asset('svg/comilla-2.png')}" alt="" aria-hidden="true">
             <h3 class="bita__author">${e.author} DICE:</h3>
             <p class="bita__message">${e.message}</p>
             <p class="bita__place">— ${e.place}</p>
           </aside>
         </div>
-        <span class="bita__quote-lg u-handwritten">&rdquo;</span>
+        <img class="bita__quote-lg" src="${asset('svg/comilla-1.png')}" alt="" aria-hidden="true">
       </div>`;
 
     this.dots.innerHTML = this.entries
