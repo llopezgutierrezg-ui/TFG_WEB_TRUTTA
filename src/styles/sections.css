@@ -43,13 +43,13 @@
 .rama svg path { fill: none !important; stroke: currentColor !important; stroke-width: 1px; vector-effect: non-scaling-stroke; }
 /* 2-LAYER RAMAS straddling the hero↔intro seam (one drawing, split by colour):
    white halves live in the banner and are clipped at its bottom edge (the seam). */
-.banner__rama { position: absolute; pointer-events: none; z-index: 1; color: #fff; opacity: 1; }
+.banner__rama { position: absolute; pointer-events: none; z-index: 4; color: #fff; opacity: 1; }
 .banner__rama svg { width: 100%; height: auto; display: block; }
 /* hero ramas, split at the seam: white SOLID fill over the photo (banner), and
    over the white intro just a black OUTLINE (no fill) so it reads as line-art. */
 .banner__rama svg path { fill: #fff !important; stroke: none !important; }
 .intro__rama svg path { fill: none !important; stroke: #000 !important; stroke-width: 1px; }
-.banner__rama--l { left: 0vw;  width: 44.3vw; top: calc(100% - 26.5vw); }
+.banner__rama--l { left: -17.7vw; width: 44.3vw; top: calc(100% - 26.5vw); } /* shifted left: ~40% off-screen, 60% visible */
 .banner__rama--r { left: 74vw; width: 67vw;   top: calc(100% - 28vw); }
 .banner__head { position: relative; z-index: 2; text-align: center; }
 .banner__kicker { font-size: 0.95rem; font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase; }
@@ -61,9 +61,9 @@
 .intro { position: relative; height: 66vw; overflow: visible; }
 /* grey halves live in the intro; clip-path hides the part above the seam (drawn
    by the white banner halves) so together they read as one continuous drawing */
-.intro__rama { position: absolute; pointer-events: none; z-index: 0; color: #554D56; opacity: 0.65; }
+.intro__rama { position: absolute; pointer-events: none; z-index: 5; color: #554D56; opacity: 0.65; }
 .intro__rama svg { width: 100%; height: auto; display: block; }
-.intro__rama--l { left: 0vw;  width: 44.3vw; top: -26.5vw; clip-path: inset(26.5vw 0 0 0); }
+.intro__rama--l { left: -17.7vw; width: 44.3vw; top: -26.5vw; clip-path: inset(26.5vw 0 0 0); }
 .intro__rama--r { left: 74vw; width: 67vw;   top: -28vw;   clip-path: inset(28vw 0 0 0); }
 .intro__photos { position: absolute; inset: 0; z-index: 1; }
 .intro__ph { position: absolute; object-fit: cover; }
@@ -317,7 +317,7 @@
   position: absolute; top: 50%; transform: translateY(-50%);
   width: clamp(150px, 15vw, 220px); z-index: 5;
 }
-.apartado__col--l { left: var(--pad-x); }
+.apartado__col--l { left: var(--pad-x); text-align: center; }
 .apartado__col--r { right: var(--pad-x); }
 .foto-tag { font-size: 0.92rem; font-weight: 700; letter-spacing: 0.1em; margin: 0 0 0.35rem; }
 .foto-desc { font-size: 0.66rem; line-height: 1.5; margin: 0; color: #333; }

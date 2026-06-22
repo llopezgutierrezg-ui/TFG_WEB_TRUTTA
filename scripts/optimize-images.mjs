@@ -52,7 +52,11 @@ async function run() {
     const id = slug(file);
     const meta = await sharp(file).metadata();
     const aspect = +(meta.width / meta.height).toFixed(4);
-    const entry = { id, aspect, group: id.includes('/') ? id.split('/')[0] : 'rio', src: {} };
+    // group = top-level source subfolder (lowercased), or 'rio' if loose. Derive
+    // it from the path BEFORE slugifying (slug() strips the '/').
+    const relPath = relative(SRC_DIR, file).replace(/\\/g, '/');
+    const grp = relPath.includes('/') ? relPath.split('/')[0].toLowerCase() : 'rio';
+    const entry = { id, aspect, group: grp, src: {} };
     for (const s of SIZES) {
       const outName = `${id.replace(/\//g, '_')}-${s.suffix}.webp`;
       await sharp(file)

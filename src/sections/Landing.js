@@ -11,7 +11,7 @@
  * onStart(rio) is fired by a river's CTA to kick off the recorrido.
  */
 import { gsap } from 'gsap';
-import { pool, rivers, asset } from '../core/Assets.js';
+import { pool, rivers, group, asset } from '../core/Assets.js';
 
 const TRAIL_SIZE = 16;
 const SPAWN_DIST = 90;
@@ -30,12 +30,17 @@ export class Landing {
   }
 
   _build() {
-    // fixed hero photo (deterministic — doesn't change on reload)
+    // curated final photos by group (fall back to the random pool if a group is
+    // empty, e.g. before `npm run optimize:img` has run).
     const river0 = rivers()[0];
-    const banner = river0 ? { ...river0, url: river0.src.full } : pool(1)[0];
-    const intro = pool(7, { thumb: true });
-    const lozoya = pool(6, { thumb: true });
-    const alberche = pool(6, { thumb: true });
+    const banner = group('hero')[0]
+      || (river0 ? { ...river0, url: river0.src.full } : pool(1)[0]);
+    const introG = group('intro', { thumb: true });
+    const intro = introG.length ? introG : pool(7, { thumb: true });
+    const lozG = group('expolozoya', { thumb: true });
+    const lozoya = lozG.length ? lozG : pool(6, { thumb: true });
+    const albG = group('expoalberche', { thumb: true });
+    const alberche = albG.length ? albG : pool(6, { thumb: true });
 
     this.root.innerHTML = `
       <div class="banner">
@@ -159,7 +164,14 @@ export class Landing {
 
   _buildTrail() {
     this.imgs = [];
-    const photos = pool(TRAIL_SIZE, { thumb: true });
+    // the mouse-trail reuses the final landing photos (no dedicated set provided)
+    const landing = [
+      ...group('intro', { thumb: true }),
+      ...group('expolozoya', { thumb: true }),
+      ...group('expoalberche', { thumb: true }),
+    ];
+    const photos = (landing.length ? landing : pool(TRAIL_SIZE, { thumb: true }))
+      .sort(() => Math.random() - 0.5);
     for (let i = 0; i < TRAIL_SIZE; i++) {
       const img = document.createElement('img');
       img.className = 'banner__trail-img';

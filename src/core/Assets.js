@@ -45,6 +45,16 @@ export function rivers() {
   return _manifest.filter(m => /^(img-\d+|alberche)/.test(m.id));
 }
 
+/** Photos of a named group (= source subfolder, lowercased), ordered by the
+ *  trailing number in the filename (vertical_1 → 1) for curated fixed slots. */
+export function group(name, { thumb = false } = {}) {
+  const num = (id) => +(id.match(/\d+/g)?.pop() ?? 0);
+  return _manifest
+    .filter((m) => m.group === name)
+    .sort((a, b) => num(a.id) - num(b.id))
+    .map((m) => ({ ...m, url: thumb ? m.src.thumb : m.src.full }));
+}
+
 /** A shuffled pool of N photos for trails / chaos grids. */
 export function pool(n = 12, { thumb = false } = {}) {
   const list = rivers().length ? rivers() : _manifest;

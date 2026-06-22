@@ -196,11 +196,9 @@ export class ArchivosVivos {
     const setCaption = (k) => {
       if (k === lastActive) return;
       lastActive = k;
-      // FOTO label sits directly above its description as one tight block
-      // (Desktop 6), mirrored on both flanks of the photo stack.
-      const cap = `<p class="foto-tag">FOTO ${tiles[k].n}/20</p><p class="foto-desc">${DESC}</p>`;
-      colL.innerHTML = cap;
-      colR.innerHTML = cap;
+      // left flank: just the "FOTO n/20" label (centred); right flank: the description.
+      colL.innerHTML = `<p class="foto-tag">FOTO ${tiles[k].n}/20</p>`;
+      colR.innerHTML = `<p class="foto-desc">${DESC}</p>`;
       gsap.fromTo([colL, colR], { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.4, overwrite: true });
     };
 
