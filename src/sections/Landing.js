@@ -73,6 +73,7 @@ export class Landing {
 
         ${this._expo('01', 'LOZOYA', 'lozoya', lozoya)}
         ${this._expo('02', 'ALBERCHE', 'alberche', alberche)}
+        <p class="archivos__expand" data-i18n="archivos_expand">archivo en continua expansión</p>
       </section>
 
       <section class="bitacoras" id="bitacoras"></section>
@@ -145,7 +146,7 @@ export class Landing {
           <div class="expo__text">
             <span class="expo__num u-handwritten">${num}</span>
             <div class="expo__block">
-              <h3 class="expo__heading">${name} <span class="expo__vol">"VOLUMEN 0"</span></h3>
+              <h3 class="expo__heading">${name}</h3>
               <p class="expo__desc-short">La exposición que nos sumerge en la historia del río ${cap}
                 y su estrecha relación con el pueblo de ${place}.</p>
               <p class="expo__desc">La trucha común (Salmo trutta) es el organismo indicador más confiable

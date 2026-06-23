@@ -56,6 +56,7 @@
   --c-cream: #ece7e3;      /* warm off-white used on black frames */
   --c-gray: #b0b0b0;       /* placeholder rectangles */
   --c-line: #d8d4d0;
+  --c-moss: #8A9A5B;       /* verde musgo (pez + hover de botones) */
 
   /* Typography */
   --font-grotesk: 'Metropolis', 'Helvetica Neue', Helvetica, Arial, sans-serif;

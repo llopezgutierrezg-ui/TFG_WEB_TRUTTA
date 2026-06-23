@@ -59,6 +59,9 @@ export class FloatField {
     this._needsCollect = true;        // the element set changed (section/overlay swap)
     this._onMove = (e) => { this.mx = e.clientX; this.my = e.clientY; };
     this._onScrollOrResize = () => { this._dirty = true; };
+    // touch ("band") mode: the cursor is a fixed point at the viewport centre, so
+    // scrolling carries elements through it (same drift, driven by scroll).
+    this._setBand = () => { this.mx = window.innerWidth / 2; this.my = window.innerHeight / 2; this._dirty = true; };
     this._tick = this._tick.bind(this);
     // sections and overlays are built/destroyed and shown/hidden on the fly, so
     // re-collect whenever the DOM tree changes or a [hidden] toggles (overlay
@@ -96,7 +99,10 @@ export class FloatField {
     this._needsCollect = true;
     this._dirty = true;
     this.running = true;
-    window.addEventListener('pointermove', this._onMove, { passive: true });
+    // no hover (phone/tablet) → band mode; otherwise follow the pointer.
+    this._touch = window.matchMedia('(hover: none)').matches;
+    if (this._touch) { this._setBand(); window.addEventListener('resize', this._setBand, { passive: true }); }
+    else { window.addEventListener('pointermove', this._onMove, { passive: true }); }
     window.addEventListener('scroll', this._onScrollOrResize, { passive: true });
     window.addEventListener('resize', this._onScrollOrResize, { passive: true });
     this._mo.observe(this.root, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
@@ -107,6 +113,7 @@ export class FloatField {
     if (!this.running) return;
     this.running = false;
     window.removeEventListener('pointermove', this._onMove);
+    window.removeEventListener('resize', this._setBand);
     window.removeEventListener('scroll', this._onScrollOrResize);
     window.removeEventListener('resize', this._onScrollOrResize);
     this._mo.disconnect();

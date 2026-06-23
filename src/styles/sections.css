@@ -10,14 +10,14 @@
   transition: background 0.3s, color 0.3s;
 }
 /* hover = colour change only (no shifting) */
-.btn-fill:hover { background: transparent; color: var(--c-black); }
+.btn-fill:hover { background: var(--c-moss); color: #fff; border-color: var(--c-moss); }
 .btn-line {
   background: none; border: 1px solid currentColor; color: var(--c-cream);
   padding: 0.9rem 1.8rem; font-size: var(--fs-nav);
   letter-spacing: 0.18em; text-transform: uppercase;
   transition: background 0.3s, color 0.3s;
 }
-.btn-line:hover { background: var(--c-cream); color: var(--c-black); }
+.btn-line:hover { background: var(--c-moss); color: #fff; border-color: var(--c-moss); }
 
 /* ================= LANDING (Desktop 17) ================= */
 .state--landing { background: var(--c-bg); }
@@ -36,7 +36,7 @@
 .banner__trail-img {
   position: absolute; top: 0; left: 0;
   width: clamp(280px, 24vw, 380px); aspect-ratio: 16 / 10; object-fit: cover;
-  border: 4px solid #fff; box-sizing: border-box;
+  border: 2px solid #fff; box-sizing: border-box;
   will-change: transform, opacity;
 }
 /* rama line-art: outline only (no fill), colour via currentColor */
@@ -84,7 +84,9 @@
 /* --- archivos vivos --- */
 .archivos { padding: 16vh var(--pad-x) 4vh; }
 .archivos__title { font-size: var(--fs-section); text-align: center; margin: 0; letter-spacing: 0.04em; }
-.archivos__sub { text-align: center; font-size: 0.72rem; letter-spacing: 0.08em; opacity: 0.7; margin: 0.5rem 0 6vh; }
+.archivos__sub { text-align: center; font-size: 0.72rem; letter-spacing: 0.08em; color: #554d56; margin: 0.5rem 0 6vh; }
+/* end-of-archivos note */
+.archivos__expand { text-align: center; font-family: var(--font-grotesk); font-weight: 400; color: #8c94ad; font-size: 0.95rem; letter-spacing: 0.04em; margin: 2vh 0 0; }
 
 /* Exact Figma layout (Frame 268: 1383×1579). Fixed-ratio frame, photos placed
    absolutely with the Figma coordinates as %. Text uses cqw so it scales with
@@ -115,7 +117,7 @@
 
 .expo__name {
   position: absolute; left: 48.5%; top: 48%; transform: translate(-50%, -50%);
-  height: 20cqw; width: auto; display: block;
+  height: 16cqw; width: auto; display: block;
 }
 .expo__cta {
   position: absolute; left: 50%; top: 95.8%; transform: translateX(-50%);
@@ -130,7 +132,7 @@
 .expo[data-rio="alberche"] .expo__ph--3 { left: 75.78%; top: 30.74%; width: 23.86%; height: 26.39%; } /* R599 */
 .expo[data-rio="alberche"] .expo__ph--4 { left: 0;      top: 62.77%; width: 48.95%; height: 27.07%; } /* R592 */
 .expo[data-rio="alberche"] .expo__ph--5 { left: 63.05%; top: 63.62%; width: 23.86%; height: 14.21%; } /* R600 */
-.expo[data-rio="alberche"] .expo__name { left: 46%; top: 40%; }
+.expo[data-rio="alberche"] .expo__name { left: 50%; top: 43%; }
 .expo[data-rio="alberche"] .expo__cta { top: 95.96%; }
 
 /* --- bitácoras carousel + dynamic grid --- */
@@ -142,14 +144,14 @@
    medium + smalls (mutating by N) and the testimonial below; large quote mark
    bottom-right. Explicit heights so fr rows always resolve (no stretch bug). */
 .bita__entry {
-  position: relative; display: grid; grid-template-columns: 1.25fr 1.55fr; gap: 1.8vw;
+  position: relative; display: grid; grid-template-columns: 1.25fr 1.55fr; gap: 2.8vw;
   height: clamp(400px, 56vh, 680px); text-align: left;
 }
 .bita__cell { padding: 0; border: 0; background: none; cursor: pointer; overflow: hidden; min-width: 0; min-height: 0; }
 .bita__cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: filter 0.3s, transform 0.6s; }
 .bita__cell:hover img { filter: brightness(1.06); transform: scale(1.03); }
 .bita__large { height: 100%; }
-.bita__right { display: grid; grid-template-rows: 1.25fr 1fr; gap: 1.6vh; min-height: 0; }
+.bita__right { display: grid; grid-template-rows: 1.25fr 1fr; gap: 3vh; min-height: 0; }
 .bita__photos { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0.7vw; min-height: 0; }
 .bita__medium { min-height: 0; }
 .bita__smalls { display: grid; gap: 0.6vw; min-height: 0; }
@@ -164,7 +166,7 @@
 .bita__message { font-size: 0.86rem; line-height: 1.55; margin: 0; max-width: 42ch; }
 .bita__place { font-size: 0.7rem; opacity: 0.6; margin: 0.9rem 0 0; }
 .bita__quote-lg { position: absolute; right: 0; bottom: -2vh; width: 1.5rem; height: auto; display: block; }
-.bita__nav { display: flex; align-items: center; justify-content: center; gap: 1.2rem; margin: 1vh 0 4vh; }
+.bita__nav { display: flex; align-items: center; justify-content: center; gap: 1.2rem; margin: 5vh 0 4vh; }
 .bita__arrow { background: none; border: 0; font-size: 1.6rem; line-height: 1; cursor: pointer; color: var(--c-black); }
 .bita__dots { display: flex; gap: 0.5rem; }
 .bita__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-line); transition: background 0.3s; }
@@ -227,7 +229,7 @@
 .site-footer__claim-row { display: flex; align-items: center; gap: 1.6rem; padding: 12vh var(--pad-x) 5vh; }
 .site-footer__fish {
   width: clamp(90px, 9vw, 133px); aspect-ratio: 133 / 60; display: inline-block;
-  background-color: #8A9A5B;   /* verde musgo */
+  background-color: var(--c-moss);   /* verde musgo */
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
   -webkit-mask-size: contain;    mask-size: contain;
   -webkit-mask-position: center; mask-position: center;
@@ -265,8 +267,9 @@
   background: rgba(0,0,0,0.4); color: #fff; border: 1px solid rgba(255,255,255,0.4);
   padding: 0.5rem 1rem; font-size: var(--fs-nav); letter-spacing: 0.18em; backdrop-filter: blur(4px);
 }
-.flow__texto { text-align: center; padding: var(--pad-x); }
-.flow__lozoya { height: clamp(13rem, 48vh, 24rem); width: auto; display: block; margin: 0 auto; }
+/* "SIGUIENTE" on the LOZOYA / manifiesto cards: centred, clear of the date/fish */
+.flow__next { left: 50%; right: auto; bottom: 2rem; transform: translateX(-50%); cursor: pointer; }
+.flow__lozoya { height: clamp(10rem, 38vh, 18rem); width: auto; display: block; margin: 0 auto; }
 .flow__manifiesto { max-width: 60ch; }
 .flow__lead { font-size: var(--fs-lead); font-weight: 600; line-height: 1.45; color: var(--c-cream); }
 
@@ -296,7 +299,7 @@
 }
 /* huge title cards: DESENLACE (widest name) nearly fills the viewport; the "01"
    block reaches the right edge of the vertical stem of the "L" in "EL ORIGEN". */
-.apartado__num { font-size: 11.5vw; line-height: 1; }
+.apartado__num { font-size: 12.65vw; line-height: 1; }
 .apartado__name { font-size: 15.6vw; font-weight: 600; margin: 0; line-height: 0.9; letter-spacing: -0.01em; }
 
 /* white documentation scene */
@@ -309,7 +312,6 @@
 }
 .apartado__ph img {
   width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.18);
 }
 .apartado__ph:hover img { filter: brightness(1.08); }
 
@@ -319,7 +321,7 @@
 }
 .apartado__col--l { left: var(--pad-x); text-align: center; }
 .apartado__col--r { right: var(--pad-x); }
-.foto-tag { font-size: 0.92rem; font-weight: 700; letter-spacing: 0.1em; margin: 0 0 0.35rem; }
+.foto-tag { font-family: var(--font-hand); font-size: 1.2rem; font-weight: 400; letter-spacing: 0.02em; margin: 0 0 0.35rem; }
 .foto-desc { font-size: 0.66rem; line-height: 1.5; margin: 0; color: #333; }
 
 .apartado__end {
@@ -328,7 +330,7 @@
   background: rgba(255,255,255,0.7); backdrop-filter: blur(2px);
 }
 .apartado__end .btn-line { color: var(--c-black); }
-.apartado__end .btn-line:hover { background: var(--c-black); color: #fff; }
+.apartado__end .btn-line:hover { background: var(--c-moss); color: #fff; border-color: var(--c-moss); }
 
 /* ================= FOTO DETALLE (Desktop 5) ================= */
 .foto-detalle {

@@ -15,7 +15,7 @@ import { pool, asset } from '../core/Assets.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const DELAY = 3; // seconds for textoA / textoB
+const DELAY = 60; // seconds for textoA / textoB auto-advance (a skip button also advances)
 
 export class ArchivosVivos {
   constructor(app, { ripple, fsm, onPhotoClick }) {
@@ -56,7 +56,7 @@ export class ArchivosVivos {
     this.root.className = 'state state--dark state--flow';
     this._show();
     this.root.innerHTML = `
-      <video class="flow__video" src="${asset('video/placeholder.mp4')}"
+      <video class="flow__video" src="${asset('video/recorrido.mp4')}"
              autoplay muted playsinline></video>
       <button class="flow__skip" type="button">SALTAR ▸</button>`;
     const video = this.root.querySelector('.flow__video');
@@ -72,7 +72,8 @@ export class ArchivosVivos {
     this._show();
     if (which === 'A') {
       this.root.className = 'state state--dark state--flow';
-      this.root.innerHTML = `<div class="flow__texto"><img class="flow__lozoya" src="${asset('svg/lozoya-blanco.svg')}" alt="LOZOYA"></div>`;
+      this.root.innerHTML = `<div class="flow__texto"><img class="flow__lozoya" src="${asset('svg/lozoya-blanco.svg')}" alt="LOZOYA"></div>
+        <button class="flow__skip flow__next" type="button">SIGUIENTE ▸</button>`;
     } else {
       // Desktop 16 — manifiesto: fish + statement bottom-left, date bottom-right
       this.root.className = 'state state--dark';
@@ -93,12 +94,12 @@ export class ArchivosVivos {
             </div>
           </div>
           <img class="manifiesto__date" src="${asset('svg/fecha.svg')}" alt="2026" />
-        </div>`;
+        </div>
+        <button class="flow__skip flow__next" type="button">SIGUIENTE ▸</button>`;
     }
-    this._timers.push(setTimeout(
-      () => this.fsm.go(which === 'A' ? 'textoB' : 'fase2'),
-      DELAY * 1000,
-    ));
+    const go = () => { this._clearTimers(); this.fsm.go(which === 'A' ? 'textoB' : 'fase2'); };
+    this._timers.push(setTimeout(go, DELAY * 1000));
+    this.root.querySelector('.flow__skip')?.addEventListener('click', go, { once: true });
     return gsap.fromTo(this.root.firstElementChild,
       { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power3.out' });
   }

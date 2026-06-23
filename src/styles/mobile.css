@@ -1,0 +1,126 @@
+/* ============================================================
+   MOBILE (≤600px) — phone layout only. Tablet & desktop unchanged.
+   Sections built on exact-coordinate (absolute / vw / cqw) layouts
+   are reflowed here into simple vertical stacks.
+   ============================================================ */
+@media (max-width: 600px) {
+
+  :root { --pad-x: 1.1rem; }
+
+  /* ---------------- header (compact: logo left · nav right) ---------------- */
+  .site-header {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    padding: 0.7rem 1rem 0.6rem;
+  }
+  .site-header__date { display: none; }
+  .site-header__brand { grid-column: 1; text-align: left; }
+  .site-header__logo { width: 56px; margin: 0 0 2px; }
+  .site-header__brand .tagline { font-size: 0.44rem; letter-spacing: 0.2em; }
+  .site-header__nav {
+    grid-column: 2; flex-direction: row; flex-wrap: wrap;
+    justify-content: flex-end; align-items: center; gap: 0.4rem 0.75rem;
+    font-size: 0.56rem;
+  }
+
+  /* ---------------- banner / hero ---------------- */
+  .banner__logo-main { width: min(74vw, 330px); margin-top: 0.8rem; }
+  .banner__kicker { font-size: 0.72rem; }
+  .banner__trail { display: none; }            /* no pointer trail on touch */
+
+  /* ---------------- intro: stacked text + 2-col photo grid ---------------- */
+  .state--landing .intro { height: auto; padding: 10vh 1.1rem 3vh; overflow: hidden; }
+  .state--landing .intro__rama { display: none; }
+  .state--landing .intro__lead {
+    position: static; transform: none; left: auto; top: auto;
+    width: 100%; max-width: 100%; font-size: 0.9rem; margin: 0 0 4vh;
+  }
+  .state--landing .intro__photos {
+    position: static; inset: auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+  }
+  .state--landing .intro__ph {
+    position: static !important; left: auto !important; top: auto !important;
+    width: 100% !important; height: auto !important; aspect-ratio: 1 / 1;
+  }
+
+  /* ---------------- archivos vivos heading ---------------- */
+  .archivos { padding: 7vh var(--pad-x) 2vh; }
+  .archivos__sub { font-size: 0.66rem; }
+
+  /* ---------------- expositores: stacked (num · name · photos · cta) ------- */
+  .expo { padding: 5vh 0; }
+  .expo__frame {
+    width: 100%; aspect-ratio: auto; container-type: normal;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; padding: 0 1.1rem;
+  }
+  .expo__text {
+    position: static; width: auto; padding: 0; gap: 0.55rem;
+    grid-column: 1 / -1; order: -3;
+  }
+  .expo__num { font-size: 3.4rem; }
+  .expo__heading { font-size: 1rem; margin: 0 0 0.3rem; }
+  .expo__desc-short { font-size: 0.86rem; }
+  .expo__desc { font-size: 0.8rem; line-height: 1.4; }
+  .expo__name {
+    position: static !important; transform: none !important; left: auto !important; top: auto !important;
+    height: 5.5rem; width: auto; margin: 0.3rem 0; grid-column: 1 / -1; order: -2; justify-self: center;
+  }
+  .expo__ph {
+    position: static !important; left: auto !important; top: auto !important;
+    width: 100% !important; height: auto !important; aspect-ratio: 4 / 3; order: 0;
+  }
+  .expo__cta {
+    position: static !important; transform: none !important; left: auto !important; top: auto !important;
+    grid-column: 1 / -1; order: 5; justify-self: center;
+    font-size: 0.74rem; padding: 1rem 2.6rem;
+  }
+
+  /* ---------------- experiencias (carousel) ---------------- */
+  .bitacoras { padding: 6vh var(--pad-x); }
+  .bita__viewport { margin: 4vh auto 2vh; }
+  .bita__entry { grid-template-columns: 1fr; height: auto; gap: 1rem; }
+  .bita__large { height: 56vw; }
+  .bita__right { grid-template-rows: auto auto; gap: 1rem; min-height: 0; }
+  .bita__photos { grid-template-columns: 1.1fr 1fr; }
+  .bita__medium, .bita__small { aspect-ratio: 4 / 3; }
+  .bita__testimonial { padding-right: 0; }
+  .bita__quote-lg { right: 0; bottom: -1vh; }
+  .bita__message { max-width: none; }
+
+  /* ---------------- footer ---------------- */
+  .site-footer__claim-row { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 7vh var(--pad-x) 4vh; }
+  .site-footer__claim { font-size: 1.2rem; }
+  .site-footer__dark { grid-template-columns: 1fr; gap: 1.6rem; padding: 2.2rem var(--pad-x); text-align: left; }
+  .site-footer__logo { width: 150px; align-self: start; }
+  .site-footer__meta { align-items: flex-start; text-align: left; }
+
+  /* ---------------- recorrido · manifiesto (textoB) ---------------- */
+  .manifiesto { display: flex; flex-direction: column; justify-content: center; padding: 14vh 1.1rem 10vh; }
+  .manifiesto__main { position: static; max-width: 100%; flex-direction: column; gap: 1rem; }
+  .manifiesto__fish { width: 64px; }
+  .manifiesto__text { width: 100%; }
+  .manifiesto__date { position: static; width: 110px; margin: 2rem 0 0; align-self: flex-end; }
+
+  /* ---------------- recorrido · apartado depth scroller ---------------- */
+  .apartado__title { padding: 0 1.1rem 7vh; }
+  .apartado__col { width: 34vw; }
+  .foto-tag { font-size: 0.74rem; }
+  .foto-desc { font-size: 0.6rem; line-height: 1.45; }
+
+  /* ---------------- overlays: form ---------------- */
+  .form-overlay { overflow-y: auto; padding: calc(var(--header-real, 110px) + 1vh) 1.1rem 3vh; }
+  .form { grid-template-columns: 1fr; gap: 1rem; }
+  .form__thumbs { flex-direction: row; flex-wrap: wrap; }
+  .form__thumb { flex: 1 1 28%; min-height: 70px; }
+  .form__drop { min-height: 180px; }
+
+  /* ---------------- overlays: foto detalle ---------------- */
+  .foto-detalle__fig { height: 38vh; }
+  .foto-detalle__cols { grid-template-columns: 1fr; gap: 2vh; }
+  .foto-detalle__spacer { display: none; }
+  .foto-detalle__meta { flex-direction: row; align-items: center; justify-content: space-between; height: auto; }
+
+  /* ---------------- accessibility toggle: shrink ---------------- */
+  .float-toggle { left: 0.8rem; bottom: 0.8rem; }
+}
