@@ -73,7 +73,7 @@ export class ArchivosVivos {
     if (which === 'A') {
       this.root.className = 'state state--dark state--flow';
       this.root.innerHTML = `<div class="flow__texto"><img class="flow__lozoya" src="${asset('svg/lozoya-blanco.svg')}" alt="LOZOYA"></div>
-        <button class="flow__skip flow__next" type="button">SIGUIENTE ▸</button>`;
+        <button class="flow__skip" type="button">SIGUIENTE ▸</button>`;
     } else {
       // Desktop 16 — manifiesto: fish + statement bottom-left, date bottom-right
       this.root.className = 'state state--dark';
@@ -93,9 +93,8 @@ export class ArchivosVivos {
               garantizar que el paisaje sobreviva a la huella humana.</p>
             </div>
           </div>
-          <img class="manifiesto__date" src="${asset('svg/fecha.svg')}" alt="2026" />
         </div>
-        <button class="flow__skip flow__next" type="button">SIGUIENTE ▸</button>`;
+        <button class="flow__skip" type="button">SIGUIENTE ▸</button>`;
     }
     const go = () => { this._clearTimers(); this.fsm.go(which === 'A' ? 'textoB' : 'fase2'); };
     this._timers.push(setTimeout(go, DELAY * 1000));
