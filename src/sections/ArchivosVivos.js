@@ -11,7 +11,8 @@
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { pool, asset } from '../core/Assets.js';
+import { pool, byId, asset } from '../core/Assets.js';
+import { APARTADO_PHOTOS, leadFor } from '../core/photoText.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,11 +58,11 @@ export class ArchivosVivos {
     this._show();
     this.root.innerHTML = `
       <video class="flow__video" src="${asset('video/recorrido.mp4')}"
-             autoplay muted playsinline></video>
+             autoplay muted playsinline loop></video>
       <button class="flow__skip" type="button">SALTAR ▸</button>`;
     const video = this.root.querySelector('.flow__video');
-    const next = () => this.fsm.go('textoA');
-    video.addEventListener('ended', next, { once: true });
+    const next = () => { this._clearTimers(); this.fsm.go('textoA'); };
+    this._timers.push(setTimeout(next, DELAY * 1000)); // ~1 min (the video loops meanwhile)
     this.root.querySelector('.flow__skip').addEventListener('click', next, { once: true });
     video.play?.().catch(() => {}); // some browsers need the explicit call
     return gsap.fromTo(this.root, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6 });
@@ -114,7 +115,10 @@ export class ArchivosVivos {
     this._show();
 
     const APARTADOS = ['EL ORIGEN', 'EL UMBRAL', 'EL CAUCE', 'DESENLACE'];
-    const allPhotos = pool(20, { thumb: false }); // 5 per apartado → "FOTO x/20"
+    // curated by content per apartado (city → structures → cauce → naturaleza);
+    // fall back to a random photo if an id is missing from the manifest.
+    const allPhotos = APARTADOS.flatMap((name) =>
+      (APARTADO_PHOTOS[name] || []).map((id) => byId(id, { thumb: false }) || pool(1)[0]));
 
     this.root.innerHTML = APARTADOS.map((name, i) => this._apartadoMarkup(i, name)).join('');
 
@@ -198,7 +202,7 @@ export class ArchivosVivos {
       lastActive = k;
       // left flank: just the "FOTO n/20" label (centred); right flank: the description.
       colL.innerHTML = `<p class="foto-tag">FOTO ${tiles[k].n}/20</p>`;
-      colR.innerHTML = `<p class="foto-desc">${DESC}</p>`;
+      colR.innerHTML = `<p class="foto-desc">${leadFor(tiles[k].photo.id) || DESC}</p>`;
       gsap.fromTo([colL, colR], { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.4, overwrite: true });
     };
 

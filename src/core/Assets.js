@@ -55,6 +55,12 @@ export function group(name, { thumb = false } = {}) {
     .map((m) => ({ ...m, url: thumb ? m.src.thumb : m.src.full }));
 }
 
+/** A single photo by its manifest id (or null), url resolved to full/thumb. */
+export function byId(id, { thumb = false } = {}) {
+  const m = _manifest.find((x) => x.id === id);
+  return m ? { ...m, url: thumb ? m.src.thumb : m.src.full } : null;
+}
+
 /** A shuffled pool of N photos for trails / chaos grids. */
 export function pool(n = 12, { thumb = false } = {}) {
   const list = rivers().length ? rivers() : _manifest;

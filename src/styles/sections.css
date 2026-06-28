@@ -346,11 +346,14 @@
 .foto-detalle__meta { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 4vh; height: 100%; }
 .foto-detalle__tag { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.12em; margin: 0; text-align: right; line-height: 1.4; }
 .foto-detalle__fish { width: clamp(70px, 7vw, 110px); height: auto; }
-/* one large rama drawing that crosses the boundary: over the photo (top half)
-   and on into the white text area (bottom half). mix-blend keeps it white over
-   the photo and grey over the white below. */
-.foto-detalle__rama { position: absolute; left: 0; bottom: -26vh; width: clamp(320px, 38vw, 620px); color: #fff; mix-blend-mode: difference; opacity: 0.6; pointer-events: none; z-index: 3; }
+/* 2 layers crossing the photo↔text seam (like the landing): solid WHITE fill
+   over the photo (clipped above the seam) + black OUTLINE over the white text. */
+.foto-detalle__rama { position: absolute; left: 0; bottom: -26vh; width: clamp(320px, 38vw, 620px); transform: translateX(-30%); pointer-events: none; z-index: 3; }
 .foto-detalle__rama svg { width: 100%; height: auto; display: block; }
+.foto-detalle__rama--fill { clip-path: inset(0 0 26vh 0); }            /* over the photo */
+.foto-detalle__rama--fill svg path { fill: #fff !important; stroke: none !important; }
+.foto-detalle__rama--line { clip-path: inset(calc(100% - 26vh) 0 0 0); } /* over the white text */
+.foto-detalle__rama--line svg path { fill: none !important; stroke: #000 !important; }
 
 @media (max-width: 760px) {
   .foto-detalle__cols { grid-template-columns: 1fr 1fr; }
