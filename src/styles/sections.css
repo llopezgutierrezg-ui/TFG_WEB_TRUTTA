@@ -317,8 +317,9 @@
   position: absolute; top: 50%; transform: translateY(-50%);
   width: clamp(150px, 15vw, 220px); z-index: 5;
 }
-.apartado__col--l { left: var(--pad-x); text-align: center; }
-.apartado__col--r { right: var(--pad-x); }
+/* captions sit close to the centred photo column (not pinned to the screen edges) */
+.apartado__col--l { left: 15vw; text-align: center; }
+.apartado__col--r { right: 15vw; }
 .foto-tag { font-family: var(--font-hand); font-size: 1.2rem; font-weight: 400; letter-spacing: 0.02em; margin: 0 0 0.35rem; }
 .foto-desc { font-size: 0.66rem; line-height: 1.5; margin: 0; color: #333; }
 /* "tap for more" hint — phone only (replaces the side captions there) */

@@ -177,10 +177,9 @@ export class ArchivosVivos {
       { x:  50.8, y:  14.5, w: 19.0 }, // far right
       { x: -48.5, y:  41.9, w: 16.3 }, // far left, down
     ];
-    // on phones the photos read much bigger (and the side captions are hidden in
-    // favour of a "tap for more" hint), so the ordered column is taller there.
-    const isMobile = window.matchMedia('(max-width: 600px)').matches;
-    const DEPTH_H = isMobile ? 54 : 20; // ordered-column photo height (vw) — normalised so the stack is even
+    // ordered-column photo height (vw). Recomputed live in onUpdate from the
+    // current width so it never latches (e.g. a phone-size build shown wide).
+    const depthH = () => (window.matchMedia('(max-width: 600px)').matches ? 54 : 20);
     const tiles = photos.map((p, k) => {
       const el = document.createElement('button');
       el.className = 'apartado__ph';
@@ -191,10 +190,7 @@ export class ArchivosVivos {
       el.style.width = c.w + 'vw';
       el.style.aspectRatio = String(aspect);
       gsap.set(el, { left: '50%', top: '50%', xPercent: -50, yPercent: -50 });
-      return {
-        el, photo: p, n: i * 5 + k + 1, chaos: c,
-        depthNorm: (DEPTH_H * aspect) / c.w, // scale so every photo is DEPTH_H tall when ordered
-      };
+      return { el, photo: p, n: i * 5 + k + 1, chaos: c, aspect };
     });
 
     gsap.set(scene, { autoAlpha: 0 });
@@ -228,12 +224,15 @@ export class ArchivosVivos {
         const scrollP = clamp(0, 1, (p - 0.36) / 0.64);
         const active = scrollP * (N - 1);
         const vw = window.innerWidth, vh = window.innerHeight;
+        const isMobile = window.matchMedia('(max-width: 600px)').matches;
+        const DEPTH_H = depthH();
         const spacing = vw * (isMobile ? 0.46 : 0.18); // vertical step in the ordered column
         tiles.forEach((t, k) => {
           const d = k - active;
           // size is the main cue: shrink strongly toward the edges, fade only slightly
           const falloff = Math.max(0.34, 1 - Math.abs(d) * 0.32);
-          const depthScale = t.depthNorm * falloff;
+          const depthNorm = (DEPTH_H * t.aspect) / t.chaos.w; // scale so every photo is DEPTH_H tall
+          const depthScale = depthNorm * falloff;
           const depthAlpha = Math.max(0.55, 1 - Math.abs(d) * 0.16);
           gsap.set(t.el, {
             x: lerp(t.chaos.x / 100 * vw, 0, orderP),
@@ -256,10 +255,10 @@ export class ArchivosVivos {
     if (show && !end) {
       end = document.createElement('div');
       end.className = 'apartado__end';
-      // distinct styles so the two CTAs read differently: one solid black, one outline
+      // distinct styles so the two CTAs read differently: one outline, one solid black
       end.innerHTML = `
-        <button class="btn-fill" data-act="restart">VOLVER A EMPEZAR</button>
-        <button class="btn-line" data-act="index">VOLVER AL INDEX</button>`;
+        <button class="btn-line" data-act="restart">VOLVER A EMPEZAR</button>
+        <button class="btn-fill" data-act="index">VOLVER AL INDEX</button>`;
       this.root.querySelector('.apartado[data-i="3"] .apartado__pin').appendChild(end);
       end.querySelector('[data-act="restart"]').addEventListener('click', () => this.fsm.go('video'));
       end.querySelector('[data-act="index"]').addEventListener('click', () => this.fsm.go('landing'));
