@@ -128,7 +128,9 @@ export class App {
   /* ---- "Desactivar animaciones" panic button ---- */
   _setupFloat() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const saved = localStorage.getItem('trutta-nomotion');
+    // localStorage access can throw in an embedded (cross-site) iframe with storage blocked
+    let saved = null;
+    try { saved = localStorage.getItem('trutta-nomotion'); } catch { /* storage blocked (embed) */ }
     // motion ON by default; OFF if saved as off, or if the OS asks for reduced motion
     this._motionOn = saved !== null ? saved !== '1' : !reduce;
 

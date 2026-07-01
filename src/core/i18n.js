@@ -48,7 +48,10 @@ const DICT = {
   },
 };
 
-let lang = (typeof localStorage !== 'undefined' && localStorage.getItem('trutta-lang')) || 'es';
+// read the saved language defensively: in an embedded (cross-site) iframe,
+// accessing localStorage can throw a SecurityError when storage is blocked.
+let lang = 'es';
+try { lang = localStorage.getItem('trutta-lang') || 'es'; } catch { /* storage blocked (embed) */ }
 
 export function getLang() { return lang; }
 
