@@ -111,6 +111,9 @@ export class Landing {
 
     this.trail = this.root.querySelector('.banner__trail');
     this._buildTrail();
+    // phones have no pointer, so the mouse-trail is replaced by a static scatter
+    // of random photo squares across the hero.
+    if (window.matchMedia('(max-width: 600px)').matches) this._buildMobileSquares();
 
     this.root.querySelectorAll('.expo__cta').forEach(btn => {
       btn.addEventListener('click', () => this.onStart?.(btn.closest('.expo').dataset.rio));
@@ -182,6 +185,38 @@ export class Landing {
       this.trail.appendChild(img);
       this.imgs.push(img);
     }
+  }
+
+  /* Mobile-only: scatter random photo squares over the hero (replaces the
+     desktop pointer trail). They're real photos, so tapping one opens the detail. */
+  _buildMobileSquares() {
+    const banner = this.root.querySelector('.banner');
+    if (!banner) return;
+    const set = [
+      ...group('intro', { thumb: true }),
+      ...group('expolozoya', { thumb: true }),
+      ...group('expoalberche', { thumb: true }),
+    ];
+    const photos = (set.length ? set : pool(7, { thumb: true })).sort(() => Math.random() - 0.5);
+    const wrap = document.createElement('div');
+    wrap.className = 'banner__squares';
+    wrap.setAttribute('aria-hidden', 'true');
+    const N = 6;
+    for (let i = 0; i < N; i++) {
+      const p = photos[i % photos.length];
+      const img = document.createElement('img');
+      img.className = 'banner__square';
+      img.src = p?.url || '';
+      if (p?.src?.full) img.dataset.full = p.src.full;
+      img.alt = '';
+      const size = 24 + Math.random() * 16;                 // 24–40vw
+      img.style.width = size + 'vw';
+      img.style.left = (2 + Math.random() * 70) + 'vw';
+      img.style.top = (5 + Math.random() * 72) + '%';
+      img.style.transform = `rotate(${(Math.random() * 16 - 8).toFixed(1)}deg)`;
+      wrap.appendChild(img);
+    }
+    banner.appendChild(wrap);
   }
 
   _onMove(e) {

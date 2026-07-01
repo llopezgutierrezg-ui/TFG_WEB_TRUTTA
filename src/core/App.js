@@ -90,9 +90,22 @@ export class App {
         else window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     };
+    // hamburger (mobile): toggle the nav dropdown; any nav action also closes it
+    const header = document.querySelector('.site-header');
+    const burger = document.querySelector('.site-header__burger');
+    const closeMenu = () => {
+      header.classList.remove('nav-open');
+      burger?.setAttribute('aria-expanded', 'false');
+    };
+    burger?.addEventListener('click', () => {
+      const open = header.classList.toggle('nav-open');
+      burger.setAttribute('aria-expanded', String(open));
+    });
+
     document.querySelectorAll('.site-header__nav button').forEach(btn => {
       btn.addEventListener('click', () => {
-        if (btn.classList.contains('site-header__lang')) return toggleLang();
+        if (btn.classList.contains('site-header__lang')) { toggleLang(); return; }
+        closeMenu();
         const t = btn.dataset.goto;
         if (t === 'landing') goLanding(null);
         else if (t === 'archivo') goLanding('archivos');
@@ -102,7 +115,6 @@ export class App {
     });
 
     // measure the (multiline) navbar so overlays can clear it
-    const header = document.querySelector('.site-header');
     const setHeaderVar = () => document.documentElement.style.setProperty('--header-real', header.offsetHeight + 'px');
     setHeaderVar();
     window.addEventListener('resize', setHeaderVar);

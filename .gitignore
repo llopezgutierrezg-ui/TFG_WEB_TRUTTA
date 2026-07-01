@@ -12,3 +12,7 @@ dist
 
 # Source (heavy, unoptimized) assets live outside the repo; only optimized output in /public is committed
 /_raw_assets
+
+# Local handoff/context doc (machine-specific notes, not part of the project)
+/CONTEXT.md
+.Rhistory

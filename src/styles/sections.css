@@ -321,12 +321,16 @@
 .apartado__col--r { right: var(--pad-x); }
 .foto-tag { font-family: var(--font-hand); font-size: 1.2rem; font-weight: 400; letter-spacing: 0.02em; margin: 0 0 0.35rem; }
 .foto-desc { font-size: 0.66rem; line-height: 1.5; margin: 0; color: #333; }
+/* "tap for more" hint — phone only (replaces the side captions there) */
+.apartado__hint { display: none; }
 
 .apartado__end {
   position: absolute; inset: 0; z-index: 6;
-  display: flex; gap: 1.5rem; align-items: center; justify-content: center;
+  display: flex; flex-direction: column; gap: 1.2rem; align-items: center; justify-content: center;
   background: rgba(255,255,255,0.7); backdrop-filter: blur(2px);
 }
+.apartado__end .btn-fill,
+.apartado__end .btn-line { min-width: 16rem; text-align: center; }
 .apartado__end .btn-line { color: var(--c-black); }
 .apartado__end .btn-line:hover { background: var(--c-moss); color: #fff; border-color: var(--c-moss); }
 
@@ -344,7 +348,8 @@
 .foto-detalle__cols { display: grid; grid-template-columns: 1.2fr 1fr 1fr 0.8fr; gap: 3vw; align-items: start; position: relative; padding: 0 var(--pad-x); }
 .foto-detalle__txt { font-size: 0.72rem; line-height: 1.6; margin: 0; }
 .foto-detalle__meta { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 4vh; height: 100%; }
-.foto-detalle__tag { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.12em; margin: 0; text-align: right; line-height: 1.4; }
+/* "FOTOGRAFÍA n/n" uses the handwritten TRUTTA face (desktop + mobile) */
+.foto-detalle__tag { font-family: var(--font-hand); font-weight: 400; font-size: 1.15rem; letter-spacing: 0.04em; margin: 0; text-align: right; line-height: 1.25; }
 .foto-detalle__fish { width: clamp(70px, 7vw, 110px); height: auto; }
 /* 2 layers crossing the photo↔text seam (like the landing): solid WHITE fill
    over the photo (clipped above the seam) + black OUTLINE over the white text. */

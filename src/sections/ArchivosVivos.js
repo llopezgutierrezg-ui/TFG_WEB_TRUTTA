@@ -144,6 +144,7 @@ export class ArchivosVivos {
             <aside class="apartado__col apartado__col--l"></aside>
             <div class="apartado__stack"></div>
             <aside class="apartado__col apartado__col--r"></aside>
+            <p class="apartado__hint" aria-hidden="true">Haz clic para más información de la foto.</p>
           </div>
         </div>
       </section>`;
@@ -176,7 +177,10 @@ export class ArchivosVivos {
       { x:  50.8, y:  14.5, w: 19.0 }, // far right
       { x: -48.5, y:  41.9, w: 16.3 }, // far left, down
     ];
-    const DEPTH_H = 20; // ordered-column photo height (vw) — normalised so the stack is even
+    // on phones the photos read much bigger (and the side captions are hidden in
+    // favour of a "tap for more" hint), so the ordered column is taller there.
+    const isMobile = window.matchMedia('(max-width: 600px)').matches;
+    const DEPTH_H = isMobile ? 54 : 20; // ordered-column photo height (vw) — normalised so the stack is even
     const tiles = photos.map((p, k) => {
       const el = document.createElement('button');
       el.className = 'apartado__ph';
@@ -224,7 +228,7 @@ export class ArchivosVivos {
         const scrollP = clamp(0, 1, (p - 0.36) / 0.64);
         const active = scrollP * (N - 1);
         const vw = window.innerWidth, vh = window.innerHeight;
-        const spacing = vw * 0.18; // vertical step in the ordered column
+        const spacing = vw * (isMobile ? 0.46 : 0.18); // vertical step in the ordered column
         tiles.forEach((t, k) => {
           const d = k - active;
           // size is the main cue: shrink strongly toward the edges, fade only slightly
@@ -252,8 +256,9 @@ export class ArchivosVivos {
     if (show && !end) {
       end = document.createElement('div');
       end.className = 'apartado__end';
+      // distinct styles so the two CTAs read differently: one solid black, one outline
       end.innerHTML = `
-        <button class="btn-line" data-act="restart">VOLVER A EMPEZAR</button>
+        <button class="btn-fill" data-act="restart">VOLVER A EMPEZAR</button>
         <button class="btn-line" data-act="index">VOLVER AL INDEX</button>`;
       this.root.querySelector('.apartado[data-i="3"] .apartado__pin').appendChild(end);
       end.querySelector('[data-act="restart"]').addEventListener('click', () => this.fsm.go('video'));

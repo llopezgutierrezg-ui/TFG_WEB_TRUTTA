@@ -7,9 +7,9 @@
 
   :root { --pad-x: 1.1rem; }
 
-  /* ---------------- header (compact: logo left · nav right) ---------------- */
+  /* ---------------- header: logo left · hamburger right · nav dropdown ------- */
   .site-header {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr auto;
     align-items: center;
     padding: 0.7rem 1rem 0.6rem;
   }
@@ -17,109 +17,188 @@
   .site-header__brand { grid-column: 1; text-align: left; }
   .site-header__logo { width: 56px; margin: 0 0 2px; }
   .site-header__brand .tagline { font-size: 0.44rem; letter-spacing: 0.2em; }
-  .site-header__nav {
-    grid-column: 2; flex-direction: row; flex-wrap: wrap;
-    justify-content: flex-end; align-items: center; gap: 0.4rem 0.75rem;
-    font-size: 0.56rem;
+
+  .site-header__burger {
+    grid-column: 2; justify-self: end;
+    display: flex; flex-direction: column; justify-content: center; gap: 5px;
+    width: 34px; height: 30px; padding: 4px; background: none; border: 0; color: inherit;
+  }
+  .site-header__burger span {
+    display: block; width: 100%; height: 2px; background: currentColor;
+    transition: transform 0.3s, opacity 0.2s;
   }
 
-  /* ---------------- banner / hero ---------------- */
+  /* nav becomes a dropdown panel under the bar */
+  .site-header__nav {
+    grid-column: 1 / -1; position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; text-align: left;
+    gap: 0; font-size: 0.95rem; letter-spacing: 0.12em;
+    background: var(--c-bg); color: var(--c-black);
+    padding: 0 1rem; max-height: 0; overflow: hidden;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.14);
+    transition: max-height 0.32s ease, padding 0.32s ease;
+  }
+  .site-header__nav button {
+    width: 100%; text-align: left; padding: 0.9rem 0;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .site-header__nav button:last-child { border-bottom: 0; }
+
+  /* open state: drop the panel + flip the bar to solid (no blend) so it's legible */
+  .site-header.nav-open { mix-blend-mode: normal; background: var(--c-bg); color: var(--c-black); }
+  .site-header.nav-open .site-header__nav { max-height: 75vh; padding: 0.3rem 1rem 0.7rem; }
+  .site-header.nav-open .site-header__burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .site-header.nav-open .site-header__burger span:nth-child(2) { opacity: 0; }
+  .site-header.nav-open .site-header__burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ---------------- banner / hero (random photo squares, no pointer trail) --- */
   .banner__logo-main { width: min(74vw, 330px); margin-top: 0.8rem; }
   .banner__kicker { font-size: 0.72rem; }
-  .banner__trail { display: none; }            /* no pointer trail on touch */
+  .banner__trail { display: none; }
+  .banner__squares { position: absolute; inset: 0; z-index: 1; }
+  .banner__square {
+    position: absolute; aspect-ratio: 1 / 1; object-fit: cover;
+    border: 1px solid #fff; box-sizing: border-box;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  }
 
-  /* ---------------- intro: stacked text + 2-col photo grid ---------------- */
-  .state--landing .intro { height: auto; padding: 10vh 1.1rem 3vh; overflow: hidden; }
+  /* ---------------- intro: same proportional scatter, much smaller photos ---- */
+  .state--landing .intro { height: 64vw; padding: 0; overflow: visible; }
   .state--landing .intro__rama { display: none; }
-  .state--landing .intro__lead {
-    position: static; transform: none; left: auto; top: auto;
-    width: 100%; max-width: 100%; font-size: 0.9rem; margin: 0 0 4vh;
-  }
-  .state--landing .intro__photos {
-    position: static; inset: auto;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
-  }
+  .state--landing .intro__photos { position: absolute; inset: 0; display: block; }
   .state--landing .intro__ph {
-    position: static !important; left: auto !important; top: auto !important;
-    width: 100% !important; height: auto !important; aspect-ratio: 1 / 1;
+    /* keep the desktop vw coordinates; just render each photo smaller */
+    position: absolute; transform: scale(0.55); transform-origin: center;
+  }
+  .state--landing .intro__lead {
+    position: absolute; left: 50%; top: 30vw; transform: translateX(-50%);
+    width: 86vw; max-width: none; text-align: center;
+    font-size: 0.6rem; line-height: 1.4; margin: 0;
   }
 
   /* ---------------- archivos vivos heading ---------------- */
   .archivos { padding: 7vh var(--pad-x) 2vh; }
+  .archivos__title { font-size: 1.9rem; }
   .archivos__sub { font-size: 0.66rem; }
 
-  /* ---------------- expositores: stacked (num · name · photos · cta) ------- */
-  .expo { padding: 5vh 0; }
+  /* ---------------- expositores: 01 · text · big photo+name · 2 photos ------- */
+  .expo { padding: 7vh 0; }
   .expo__frame {
     width: 100%; aspect-ratio: auto; container-type: normal;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; padding: 0 1.1rem;
+    display: grid; grid-template-columns: 1fr; gap: 2.4vh; padding: 0 1.1rem;
   }
   .expo__text {
-    position: static; width: auto; padding: 0; gap: 0.55rem;
-    grid-column: 1 / -1; order: -3;
+    position: static; width: auto; padding: 0;
+    grid-row: 1; grid-column: 1;
+    display: flex; flex-direction: column; gap: 1.5rem;   /* more separation between texts */
   }
-  .expo__num { font-size: 3.4rem; }
-  .expo__heading { font-size: 1rem; margin: 0 0 0.3rem; }
-  .expo__desc-short { font-size: 0.86rem; }
-  .expo__desc { font-size: 0.8rem; line-height: 1.4; }
-  .expo__name {
-    position: static !important; transform: none !important; left: auto !important; top: auto !important;
-    height: 5.5rem; width: auto; margin: 0.3rem 0; grid-column: 1 / -1; order: -2; justify-self: center;
-  }
+  .expo__num { font-size: 4.6rem; line-height: 0.8; }       /* 01 big */
+  .expo__block { display: flex; flex-direction: column; gap: 0.9rem; }
+  .expo__heading { font-size: 1rem; margin: 0 0 0.2rem; }
+  .expo__desc-short { font-size: 0.82rem; text-align: left; }
+  .expo__desc { font-size: 0.74rem; line-height: 1.5; text-align: left; }
+
+  /* the three photos share the same size; the river name sits centred over the
+     first one (bigger now) */
   .expo__ph {
     position: static !important; left: auto !important; top: auto !important;
-    width: 100% !important; height: auto !important; aspect-ratio: 4 / 3; order: 0;
+    width: 100% !important; height: auto !important;
   }
+  .expo__ph--0 { grid-row: 2; grid-column: 1; aspect-ratio: 4 / 3; }
+  .expo__name {
+    position: static !important; transform: none !important; left: auto !important; top: auto !important;
+    grid-row: 2; grid-column: 1; place-self: center; z-index: 2;
+    height: 6.6rem; width: auto;                            /* bigger name over the photo */
+    filter: invert(1) drop-shadow(0 1px 10px rgba(0, 0, 0, 0.6));
+  }
+  .expo__ph--1 { grid-row: 3; grid-column: 1; aspect-ratio: 4 / 3; }
+  .expo__ph--2 { grid-row: 4; grid-column: 1; aspect-ratio: 4 / 3; }
+  .expo__ph--3, .expo__ph--4, .expo__ph--5 { display: none; }
   .expo__cta {
     position: static !important; transform: none !important; left: auto !important; top: auto !important;
-    grid-column: 1 / -1; order: 5; justify-self: center;
-    font-size: 0.74rem; padding: 1rem 2.6rem;
+    grid-row: 5; grid-column: 1; justify-self: center;
+    font-size: 0.78rem; padding: 1rem 2.6rem;
   }
 
   /* ---------------- experiencias (carousel) ---------------- */
   .bitacoras { padding: 6vh var(--pad-x); }
+  .bitacoras__title { font-size: 1.9rem; }
   .bita__viewport { margin: 4vh auto 2vh; }
   .bita__entry { grid-template-columns: 1fr; height: auto; gap: 1rem; }
-  .bita__large { height: 56vw; }
+  .bita__large { height: auto; aspect-ratio: 4 / 3; }
   .bita__right { grid-template-rows: auto auto; gap: 1rem; min-height: 0; }
-  .bita__photos { grid-template-columns: 1.1fr 1fr; }
-  .bita__medium, .bita__small { aspect-ratio: 4 / 3; }
+  .bita__photos { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .bita__medium { aspect-ratio: 4 / 3; height: auto; min-height: 0; }
+  .bita__smalls { grid-auto-rows: auto; gap: 0.5rem; }
+  .bita__smalls[data-n="1"], .bita__smalls[data-n="2"] { grid-template-rows: auto; }
+  .bita__smalls[data-n="3"], .bita__smalls[data-n="4"] { grid-template-rows: auto auto; }
+  .bita__small { aspect-ratio: 4 / 3; height: auto; min-height: 0; }
   .bita__testimonial { padding-right: 0; }
+  .bita__message { max-width: none; text-align: left; }
   .bita__quote-lg { right: 0; bottom: -1vh; }
-  .bita__message { max-width: none; }
 
-  /* ---------------- footer ---------------- */
-  .site-footer__claim-row { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 7vh var(--pad-x) 4vh; }
-  .site-footer__claim { font-size: 1.2rem; }
+  /* ---------------- footer (smaller fish + claim) ---------------- */
+  .site-footer__claim-row { flex-direction: column; align-items: flex-start; gap: 0.8rem; padding: 7vh var(--pad-x) 4vh; }
+  .site-footer__fish { width: 64px; }
+  .site-footer__claim { font-size: 0.95rem; }
   .site-footer__dark { grid-template-columns: 1fr; gap: 1.6rem; padding: 2.2rem var(--pad-x); text-align: left; }
   .site-footer__logo { width: 150px; align-self: start; }
   .site-footer__meta { align-items: flex-start; text-align: left; }
+
+  /* ---------------- recorrido · LOZOYA/ALBERCHE name window (textoA) -------- */
+  .flow__lozoya { height: clamp(5.5rem, 20vh, 9rem); }
 
   /* ---------------- recorrido · manifiesto (textoB) ---------------- */
   .manifiesto { display: flex; flex-direction: column; justify-content: center; padding: 14vh 1.1rem 10vh; }
   .manifiesto__main { position: static; max-width: 100%; flex-direction: column; gap: 1rem; }
   .manifiesto__fish { width: 64px; }
   .manifiesto__text { width: 100%; }
+  .manifiesto__lead, .manifiesto__body { text-align: left; }   /* no justified "rivers" */
   .manifiesto__date { position: static; width: 110px; margin: 2rem 0 0; align-self: flex-end; }
 
-  /* ---------------- recorrido · apartado depth scroller ---------------- */
-  .apartado__title { padding: 0 1.1rem 7vh; }
-  .apartado__col { width: 34vw; }
-  .foto-tag { font-size: 0.74rem; }
-  .foto-desc { font-size: 0.6rem; line-height: 1.45; }
+  /* ---------------- recorrido · apartado depth scroller ----------------
+     title centred on screen with a bigger number block; side captions removed
+     in favour of a single "tap for more" hint; photos enlarged (in JS). */
+  .apartado__title {
+    justify-content: center; align-items: center; text-align: center;
+    padding: 0 1.1rem;
+  }
+  .apartado__num { font-size: 20vw; }
+  .apartado__name { font-size: 12vw; }
+  .apartado__col { display: none; }
+  .apartado__hint {
+    display: block; position: absolute; left: 0; right: 0; bottom: auto;
+    top: calc(var(--header-real, 90px) + 1.5vh); z-index: 6;
+    text-align: center; font-family: var(--font-hand); font-size: 0.78rem; color: #E7E0DC;
+    margin: 0; pointer-events: none;
+  }
 
-  /* ---------------- overlays: form ---------------- */
-  .form-overlay { overflow-y: auto; padding: calc(var(--header-real, 110px) + 1vh) 1.1rem 3vh; }
-  .form { grid-template-columns: 1fr; gap: 1rem; }
-  .form__thumbs { flex-direction: row; flex-wrap: wrap; }
-  .form__thumb { flex: 1 1 28%; min-height: 70px; }
-  .form__drop { min-height: 180px; }
+  /* ---------------- overlays: form (uploader left · thumbs right · fields below) */
+  .form-overlay { overflow-y: auto; padding: calc(var(--header-real, 110px) + 1vh) 1.1rem 4vh; }
+  .form {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem;
+    flex: none; min-height: 0; align-items: stretch;
+  }
+  .form__drop { grid-column: 1; grid-row: 1; min-height: 40vh; }
+  .form__thumbs { grid-column: 2; grid-row: 1; flex-direction: column; gap: 0.6rem; min-height: 0; }
+  .form__thumb, .form__thumb--empty { flex: 1; min-height: 0; }
+  .form__fields { grid-column: 1 / -1; grid-row: 2; flex: none; min-height: auto; gap: 0.8rem; }
+  .form__field--msg { flex: none; }
+  .form__field--msg textarea { flex: none; min-height: 120px; height: auto; }
+  .form__submit { align-self: stretch; padding: 1.2rem; }
 
-  /* ---------------- overlays: foto detalle ---------------- */
+  /* ---------------- overlays: foto detalle ----------------
+     no rama / no fish; "FOTOGRAFÍA n/n" above the (left-aligned) text. */
   .foto-detalle__fig { height: 38vh; }
   .foto-detalle__cols { grid-template-columns: 1fr; gap: 2vh; }
   .foto-detalle__spacer { display: none; }
-  .foto-detalle__meta { flex-direction: row; align-items: center; justify-content: space-between; height: auto; }
+  .foto-detalle__rama, .foto-detalle__fish { display: none; }
+  .foto-detalle__meta {
+    order: -1; flex-direction: row; height: auto;
+    align-items: center; justify-content: flex-start; gap: 0; margin-bottom: 0.4vh;
+  }
+  .foto-detalle__tag { text-align: left; }
+  .foto-detalle__txt { text-align: left; }
 
   /* ---------------- accessibility toggle: shrink ---------------- */
   .float-toggle { left: 0.8rem; bottom: 0.8rem; }

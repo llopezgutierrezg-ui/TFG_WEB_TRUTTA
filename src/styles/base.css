@@ -76,6 +76,8 @@ a { color: inherit; text-decoration: none; }
 }
 .site-header__nav button { background: none; border: 0; color: inherit; letter-spacing: inherit; cursor: pointer; }
 .site-header__nav button:hover { opacity: 0.6; }
+/* hamburger is phone-only (shown via the ≤600px media query) */
+.site-header__burger { display: none; }
 /* accessibility toggle: a small floating icon that expands on hover to reveal
    its label. Fixed in the corner, never floats itself. */
 .float-toggle {
